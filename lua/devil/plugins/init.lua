@@ -424,7 +424,7 @@ local plugins_list = {
       "nvim-telescope/telescope-fzf-native.nvim",
     },
     opts = {
-      general = {
+      bar = {
         attach_events = { "BufWinEnter", "BufWritePost" },
         update_events = {
           win = { "CursorMoved", "CursorMovedI", "WinResized" },
