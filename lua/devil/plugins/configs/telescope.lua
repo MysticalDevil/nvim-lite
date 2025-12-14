@@ -1,4 +1,4 @@
-local options = {
+return {
   defaults = {
     initial_mode = "insert",
     -- vertival, center, cursor
@@ -140,5 +140,3 @@ local options = {
     },
   },
 }
-
-return options

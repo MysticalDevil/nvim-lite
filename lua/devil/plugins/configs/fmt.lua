@@ -1,6 +1,4 @@
-local util = require("conform.util")
-
-local options = {
+return {
   -- Map of filetype to formatters
   formatters_by_ft = {
     c = { "clang_format" },
@@ -57,26 +55,5 @@ local options = {
   -- Conform will notify you when a formatter errors
   notify_on_error = true,
   -- Define custom formatters here
-  formatters = {
-    prettier = {
-      prepend_args = { "--no-semi" },
-      cwd = util.root_file({
-        -- https://prettier.io/docs/en/configuration.html
-        ".prettierrc",
-        ".prettierrc.json",
-        ".prettierrc.yml",
-        ".prettierrc.yaml",
-        ".prettierrc.json5",
-        ".prettierrc.js",
-        ".prettierrc.cjs",
-        ".prettierrc.toml",
-        "prettier.config.js",
-        "prettier.config.cjs",
-        "prettier.config.mjs",
-        "package.json",
-      }),
-    },
-  },
+  formatters = {},
 }
-
-return options

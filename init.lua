@@ -5,9 +5,9 @@ utils.bootstrap(lazy_path, "folke/lazy.nvim", "stable")
 
 require("devil.core")
 
-utils.load_mappings()
-
 require("devil.plugins")
+
+utils.load_mappings()
 
 require("devil.core.commands")
 require("devil.core.colorscheme")

@@ -26,18 +26,16 @@ local plugins_list = {
 
   {
     "nvim-tree/nvim-web-devicons",
-    opts = function()
-      return {
-        override = {
-          zsh = {
-            icon = "",
-            color = "#428850",
-            cterm_color = "65",
-            name = "Zsh",
-          },
+    opts = {
+      override = {
+        zsh = {
+          icon = "",
+          color = "#428850",
+          cterm_color = "65",
+          name = "Zsh",
         },
-      }
-    end,
+      },
+    },
   },
 
   {
@@ -47,18 +45,13 @@ local plugins_list = {
     init = function()
       utils.lazy_load("indent-blankline.nvim")
     end,
-    opts = function()
-      return require("devil.plugins.configs.others").blankline
-    end,
+    opts = require("devil.plugins.configs.others").blankline,
   },
 
   {
     "kylechui/nvim-surround",
     version = "*",
     event = "VeryLazy",
-    config = function()
-      require("nvim-surround").setup()
-    end,
   },
 
   {
@@ -91,18 +84,16 @@ local plugins_list = {
     lazy = true,
     event = "LspAttach",
     dependencies = {
+      "neovim/nvim-lspconfig",
+      "stevearc/conform.nvim",
+      "mfussenegger/nvim-lint",
       "williamboman/mason-lspconfig.nvim",
       { "jay-babu/mason-nvim-dap.nvim", cmd = { "DapInstall", "DapUninstall" } },
       "zapling/mason-conform.nvim",
       "rshkarin/mason-nvim-lint",
     },
     cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUpdate" },
-    opts = function()
-      return require("devil.plugins.configs.mason")
-    end,
-    config = function(_, opts)
-      require("mason").setup(opts)
-    end,
+    opts = require("devil.plugins.configs.mason"),
   },
 
   {
@@ -120,42 +111,7 @@ local plugins_list = {
     "saghen/blink.cmp",
     dependencies = "rafamadriz/friendly-snippets",
     version = "*",
-    opts = {
-      -- 'default' for mappings similar to built-in completion
-      -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
-      -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
-      -- See the full "keymap" documentation for information on defining your own keymap.
-      keymap = { preset = "super-tab" },
-
-      appearance = {
-        -- Sets the fallback highlight groups to nvim-cmp's highlight groups
-        -- Useful for when your theme doesn't support blink.cmp
-        -- Will be removed in a future release
-        use_nvim_cmp_as_default = true,
-        -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-        -- Adjusts spacing to ensure icons are aligned
-        nerd_font_variant = "mono",
-      },
-      -- Default list of enabled providers defined so that you can extend it
-      -- elsewhere in your config, without redefining it, due to `opts_extend`
-      sources = {
-        default = { "lsp", "path", "snippets", "buffer" },
-      },
-      completion = {
-        menu = {
-          -- Don't automatically show the completion menu
-          auto_show = true,
-
-          -- nvim-cmp style menu
-          draw = {
-            columns = {
-              { "label",     "label_description", gap = 1 },
-              { "kind_icon", "kind",              gap = 1 },
-            },
-          },
-        },
-      },
-    },
+    opts = require("devil.plugins.configs.cmp"),
     opts_extend = { "sources.default" },
   },
 
@@ -231,8 +187,8 @@ local plugins_list = {
 
   {
     "stevearc/conform.nvim",
-    event = "BufWritePre",
-    cmd = "ConformInfo",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
     keys = {
       {
         -- Customize or remove this keymap to your liking
@@ -244,12 +200,10 @@ local plugins_list = {
         desc = "Format buffer",
       },
     },
+    opts = require("devil.plugins.configs.fmt"),
     init = function()
       -- If you want the formatexpr, here is the place to set it
       vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-    end,
-    opts = function()
-      return require("devil.plugins.configs.conform")
     end,
   },
 
@@ -290,9 +244,7 @@ local plugins_list = {
   {
     "onsails/lspkind.nvim",
     event = "LspAttach",
-    opts = function()
-      return require("devil.plugins.configs.others").lspkind
-    end,
+    opts = require("devil.plugins.configs.others").lspkind,
     config = function(_, opts)
       require("lspkind").init(opts)
     end,
@@ -335,9 +287,7 @@ local plugins_list = {
         end,
       })
     end,
-    opts = function()
-      return require("devil.plugins.configs.others").gitsigns
-    end,
+    opts = require("devil.plugins.configs.others").gitsigns,
   },
 
   {
@@ -363,22 +313,6 @@ local plugins_list = {
     end,
   },
 
-  --[[{
-    "dgagn/diagflow.nvim",
-    lazy = true,
-    event = "LspAttach", -- This is what I use personally and it works great
-    opts = {
-      scope = "line",
-      format = function(diagnostic)
-        return "[LSP] " .. diagnostic.message
-      end,
-      enable = function()
-        return vim.bo.filetype ~= "lazy"
-      end,
-    },
-  },
-  ]]
-
   {
     "nvim-neo-tree/neo-tree.nvim",
     lazy = false,
@@ -392,9 +326,7 @@ local plugins_list = {
     init = function()
       utils.load_mappings("neo_tree")
     end,
-    opts = function()
-      return require("devil.plugins.configs.neo-tree")
-    end,
+    opts = require("devil.plugins.configs.neo-tree"),
   },
 
   {
@@ -413,7 +345,7 @@ local plugins_list = {
       utils.load_mappings("cokeline")
     end,
     opts = function()
-      return require("devil.plugins.configs.cokeline")
+      require("devil.plugins.configs.cokeline")
     end,
   },
 
@@ -462,9 +394,6 @@ local plugins_list = {
     opts = {
       input_buffer_type = "dressing",
     },
-    config = function(_, opts)
-      require("inc_rename").setup(opts)
-    end,
   },
 
   {
@@ -513,7 +442,7 @@ local plugins_list = {
         })
       end
 
-      require("alpha").setup(dashboard.opts)
+      require("alpha").setup(dashboard.opts) ---@diagnostic disable-line
 
       vim.api.nvim_create_autocmd("User", {
         pattern = "LazyVimStarted",
@@ -613,9 +542,7 @@ local plugins_list = {
     keys = {
       { "<C-\\>", "<cmd>ToggleTerm<CR>", desc = "Open ToggleTerm" },
     },
-    opts = function()
-      return require("devil.plugins.configs.toggleterm")
-    end,
+    opts = require("devil.plugins.configs.toggleterm"),
   },
 
   {
