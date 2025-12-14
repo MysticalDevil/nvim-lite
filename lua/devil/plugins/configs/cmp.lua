@@ -1,3 +1,19 @@
+local function cmp_ghost_text()
+  local ctx = require("blink.cmp").get_context()
+  local item = require("blink.cmp").get_selected_item()
+  if ctx == nil or item == nil then return { "s", "n" } end
+
+  local item_text = item.textEdit ~= nil and item.textEdit.newText or item.insertText or item.label
+  local is_multi_line = item_text:find("\n") ~= nil
+
+  if is_multi_line or vim.g.blink_cmp_upwards_ctx_id == ctx.id then
+    vim.g.blink_cmp_upwards_ctx_id = ctx.id
+    return { "n", "s" }
+  end
+
+  return { "s", "n" }
+end
+
 return {
   -- 'default' for mappings similar to built-in completion
   -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
@@ -20,6 +36,7 @@ return {
     default = { "lsp", "path", "snippets", "buffer" },
   },
   completion = {
+    ghost_text = { enabled = true },
     menu = {
       -- Don't automatically show the completion menu
       auto_show = true,
@@ -34,6 +51,8 @@ return {
           { "kind_icon", "kind",              gap = 1 },
         },
       },
+
+      direction_priority = cmp_ghost_text
     },
   },
 }
