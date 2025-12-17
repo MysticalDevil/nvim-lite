@@ -358,6 +358,22 @@ local tailwindcss = {
   end,
 }
 
+-- ty, an extremely fast Python type checker and language server, written in Rust. https://github.com/astral-sh/ty
+local ty = {
+  settings = {
+    ty = {
+      diagnosticsMode = "openFilesOnly",
+      inlayHints = {
+        variableTypes = true,
+        callArgumentNames = true,
+      },
+      completions = {
+        autoImport = true,
+      }
+    }
+  }
+}
+
 -- yaml-language-server, redhat provided lsp. https://github.com/redhat-developer/yaml-language-server
 local yamlls = {
   settings = {
@@ -384,6 +400,7 @@ local lsp_configs = {
   ["svelte"] = svelte,
   ["tailwindcss"] = tailwindcss,
   ["tsgo"] = tsgo,
+  ["ty"] = ty,
   ["vue_ls"] = vue_ls,
   ["yamlls"] = yamlls,
   ["zls"] = zls,
