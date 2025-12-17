@@ -551,13 +551,6 @@ local plugins_list = {
     opts = {},
   },
 
-  {
-    'altermo/ultimate-autopair.nvim',
-    event = { 'InsertEnter', 'CmdlineEnter' },
-    branch = 'v0.6', --recommended as each new version will have breaking changes
-    opts = {},
-  },
-
   -- Only load whichkey after all the gui
   {
     "folke/which-key.nvim",
