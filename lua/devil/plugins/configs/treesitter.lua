@@ -1,4 +1,4 @@
-local options = {
+return {
   ensure_installed = {
     "bash",
     "c",
@@ -22,12 +22,20 @@ local options = {
     "zig",
   },
 
+  sync_install = false,
+  auto_install = true,
+
   highlight = {
     enable = true,
     use_languagetree = true,
   },
 
   indent = { enable = true },
+  endwise = { enable = true },
+  autotag = {
+    enable = true,
+    enable_rename = true,
+    enable_close = true,
+    enable_close_on_slash = true,
+  },
 }
-
-return options
