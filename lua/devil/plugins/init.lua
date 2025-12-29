@@ -13,16 +13,11 @@ local plugins_list = {
 
   {
     "navarasu/onedark.nvim",
-    config = function()
-      require("onedark").setup({ style = "darker" })
-    end,
+    opts = {
+      style = "darker",
+    },
   },
-  {
-    "EdenEast/nightfox.nvim",
-    config = function()
-      require("nightfox").setup()
-    end,
-  },
+  { "EdenEast/nightfox.nvim" },
 
   {
     "nvim-tree/nvim-web-devicons",
@@ -52,9 +47,6 @@ local plugins_list = {
     "kylechui/nvim-surround",
     version = "*",
     event = "VeryLazy",
-    config = function()
-      require("nvim-surround").setup()
-    end,
   },
 
   {
@@ -182,7 +174,7 @@ local plugins_list = {
       dependencies = "rafamadriz/friendly-snippets",
       version = "*",
       opts = function()
-        require("devil.plugins.configs.cmp")
+        return require("devil.plugins.configs.cmp")
       end,
       opts_extend = { "sources.default" },
     },
@@ -211,9 +203,9 @@ local plugins_list = {
         "neovim/nvim-lspconfig",
         "nvim-treesitter/nvim-treesitter",
       },
-      config = function()
-        require("go").setup()
-      end,
+      opts = {
+        dianostic = false,
+      },
     },
 
     { "vuki656/package-info.nvim", event = "BufRead package.json" },
@@ -282,9 +274,6 @@ local plugins_list = {
       "onsails/lspkind.nvim",
       event = "LspAttach",
       opts = require("devil.plugins.configs.others").lspkind,
-      config = function(_, opts)
-        require("lspkind").init(opts)
-      end,
     },
 
     {
@@ -346,8 +335,8 @@ local plugins_list = {
     {
       "rebelot/heirline.nvim",
       lazy = false,
-      config = function()
-        require("devil.plugins.configs.heirline")
+      opts = function()
+        return require("devil.plugins.configs.heirline")
       end,
     },
 
@@ -359,7 +348,7 @@ local plugins_list = {
         utils.load_mappings("cokeline")
       end,
       opts = function()
-        require("devil.plugins.configs.cokeline")
+        return require("devil.plugins.configs.cokeline")
       end,
     },
 
