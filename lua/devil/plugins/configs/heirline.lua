@@ -314,17 +314,24 @@ local LSPActive = {
 }
 
 local Diagnostics = {
-
   condition = conditions.has_diagnostics,
 
   static = {
-    error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
-    warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
-    info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
-    hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
+    get_icon = function(severity)
+      local config = vim.diagnostic.config()
+      if config and config.signs and config.signs.text then
+        return config.signs.text[severity]
+      end
+      return ""
+    end,
   },
 
   init = function(self)
+    self.error_icon = self.get_icon(vim.diagnostic.severity.ERROR)
+    self.warn_icon = self.get_icon(vim.diagnostic.severity.WARN)
+    self.info_icon = self.get_icon(vim.diagnostic.severity.INFO)
+    self.hint_icon = self.get_icon(vim.diagnostic.severity.HINT)
+
     self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
     self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
     self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
@@ -584,21 +591,6 @@ local StatusLines = {
 
 -------------------------------------------------------------------------
 
-local SignatureHelp = {
-  condition = conditions.lsp_attached,
-  hl = { fg = "lightyellow", italic = true },
-  flexible = 2,
-  {
-    provider = function()
-      if not pcall(require, "lsp_signature") then
-        return
-      end
-      local sig = require("lsp_signature").status_line()
-      return sig.label .. "🐼" .. sig.hint
-    end,
-  },
-}
-
 local Breadcrumbs = {
   condition = conditions.lsp_attached,
   flexible = 1,
@@ -608,7 +600,6 @@ local Breadcrumbs = {
 local WinBars = {
   Breadcrumbs,
   Align,
-  SignatureHelp,
   Space,
 }
 
