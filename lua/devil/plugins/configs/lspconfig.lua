@@ -39,13 +39,6 @@ vim.lsp.config("clangd", {
     client.server_capabilities.documentFormattingProvider = false
     client.server_capabilities.documentRangeFormattingProvider = false
 
-    require("lsp_signature").on_attach({
-      bind = true,
-      handler_opts = {
-        border = "single",
-      },
-    }, bufnr)
-
     utils.set_inlay_hints(client, bufnr)
 
     utils.load_mappings("lspconfig", { buffer = bufnr })
@@ -369,9 +362,9 @@ local ty = {
       },
       completions = {
         autoImport = true,
-      }
-    }
-  }
+      },
+    },
+  },
 }
 
 -- yaml-language-server, redhat provided lsp. https://github.com/redhat-developer/yaml-language-server

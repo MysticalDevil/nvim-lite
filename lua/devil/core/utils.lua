@@ -279,13 +279,6 @@ function M.on_attach(client, bufnr)
   client.server_capabilities.documentFormattingProvider = false
   client.server_capabilities.documentRangeFormattingProvider = false
 
-  require("lsp_signature").on_attach({
-    bind = true,
-    handler_opts = {
-      border = "single",
-    },
-  }, bufnr)
-
   M.set_inlay_hints(client, bufnr)
 
   M.load_mappings("lspconfig", { buffer = bufnr })
