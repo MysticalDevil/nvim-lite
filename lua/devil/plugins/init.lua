@@ -52,6 +52,9 @@ local plugins_list = {
     "kylechui/nvim-surround",
     version = "*",
     event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup()
+    end,
   },
 
   {
