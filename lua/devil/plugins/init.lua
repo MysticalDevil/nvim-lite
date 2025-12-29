@@ -181,7 +181,9 @@ local plugins_list = {
       "saghen/blink.cmp",
       dependencies = "rafamadriz/friendly-snippets",
       version = "*",
-      opts = require("devil.plugins.configs.cmp"),
+      opts = function()
+        require("devil.plugins.configs.cmp")
+      end,
       opts_extend = { "sources.default" },
     },
 
