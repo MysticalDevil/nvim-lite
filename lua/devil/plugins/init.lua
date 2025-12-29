@@ -103,7 +103,7 @@ local plugins_list = {
     end,
     dependencies = { "saghen/blink.cmp" },
     config = function()
-      require("devil.plugins.configs.lspconfig")
+      require("devil.plugins.configs.lsp")
     end,
   },
 

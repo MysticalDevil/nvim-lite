@@ -14,7 +14,6 @@ local noconfig_servers = {
   "cssls",
   "cssmodules_ls",
   "emmet_language_server",
-  "golangci_lint_ls",
   "html",
   "lemminx",
   "marksman",
@@ -106,7 +105,6 @@ local gopls = {
       experimentalPostfixCompletions = true,
       analyses = {
         shadow = true,
-        fieldalignment = true,
         nilness = true,
         unusedparams = true,
         unusedwrite = true,
