@@ -58,13 +58,17 @@ local plugins_list = {
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
     dependencies = {
-      -- "nvim-treesitter/nvim-treesitter-refactor",
-      "nvim-treesitter/nvim-treesitter-textobjects",
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        branch = "main",
+        init = function()
+          vim.g.no_plugin_maps = true
+        end,
+      },
       "nvim-treesitter/nvim-treesitter-context",
       "nvim-treesitter/playground",
       "windwp/nvim-ts-autotag",
       "RRethy/nvim-treesitter-endwise",
-      "ziontee113/syntax-tree-surfer",
     },
     init = function()
       utils.lazy_load("nvim-treesitter")
