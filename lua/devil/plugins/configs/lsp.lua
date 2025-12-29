@@ -3,7 +3,7 @@ local lsp_util = require("lspconfig.util")
 
 require("mason-lspconfig").setup({
   automatic_installation = true,
-  ensure_installed = { "clangd", "gopls", "lua_ls", "rust_analyzer", "tsgo", "zls" },
+  ensure_installed = { "gopls", "lua_ls", "rust_analyzer", "tsgo", "zls" },
 })
 
 local default_config = utils.default_config()

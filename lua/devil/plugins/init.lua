@@ -520,15 +520,6 @@ local plugins_list = {
       opts = function()
         return require("devil.plugins.configs.telescope")
       end,
-      config = function(_, opts)
-        local telescope = require("telescope") ---@diagnostic disable-line
-        telescope.setup(opts)
-
-        -- load extensions
-        for _, ext in ipairs(opts.extensions_list) do
-          telescope.load_extension(ext)
-        end
-      end,
     },
     {
       "danielfalk/smart-open.nvim",
