@@ -7,8 +7,8 @@ end
 local utils = require("devil.core.utils")
 
 local plugins_list = {
-  { "nvim-lua/plenary.nvim",  lazy = false },
-  { "folke/lazy.nvim",        lazy = false },
+  { "nvim-lua/plenary.nvim", lazy = false },
+  { "folke/lazy.nvim", lazy = false },
   { "stevearc/dressing.nvim", lazy = false },
 
   {
@@ -128,40 +128,25 @@ local plugins_list = {
   },
 
   {
-    "folke/neodev.nvim",
-    ft = "lua",
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
     opts = {
       library = {
-        enabled = true, -- when not enabled, neodev will not change any settings to the LSP server
-        -- these settings will be used for your Neovim config directory
-        runtime = true, -- runtime path
-        types = true,   -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
-        -- you can also specify the list of plugins to make available as a workspace library
-        plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim", "nvim-dap-ui" },
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
       },
-      setup_jsonls = true, -- configures jsonls to provide completion for project specific .luarc.json files
-      -- for your Neovim config directory, the config.library settings will be used as is
-      -- for plugin directories (root_dirs having a /lua directory), config.library.plugins will be disabled
-      -- for any other directory, config.library.enabled will be set to false
-      -- override = function(root_dir, options) end,
-      -- With lspconfig, Neodev will automatically setup your lua-language-server
-      -- If you disable this, then you have to set {before_init=require("neodev.lsp").before_init}
-      -- in your lsp start options
-      lspconfig = true,
-      -- much faster, but needs a recent built of lua-language-server
-      -- needs lua-language-server >= 3.6.0
-      pathStrict = true,
     },
   },
 
-  { "b0o/schemastore.nvim",      ft = { "json", "yaml" } },
+  { "b0o/schemastore.nvim", ft = { "json", "yaml" } },
 
   {
     "ray-x/go.nvim",
     ft = { "go", "gomod", "gowork", "gosum" },
     event = { "CmdlineEnter" },
     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
-    dependencies = {                                        -- optional packages
+    dependencies = { -- optional packages
       "ray-x/guihua.lua",
       "neovim/nvim-lspconfig",
       "nvim-treesitter/nvim-treesitter",
@@ -234,14 +219,6 @@ local plugins_list = {
   },
 
   {
-    "Wansmer/symbol-usage.nvim",
-    event = "BufReadPre", -- need run before LspAttach if you use nvim 0.9. On 0.10 use 'LspAttach'
-    opts = function()
-      return require("devil.plugins.configs.symbol-usage")
-    end,
-  },
-
-  {
     "onsails/lspkind.nvim",
     event = "LspAttach",
     opts = require("devil.plugins.configs.others").lspkind,
@@ -288,29 +265,6 @@ local plugins_list = {
       })
     end,
     opts = require("devil.plugins.configs.others").gitsigns,
-  },
-
-  {
-    "ray-x/lsp_signature.nvim",
-    event = "LspAttach",
-    keys = {
-      {
-        "<C-k>",
-        function()
-          require("lsp_signature").toggle_float_win()
-        end,
-      },
-    },
-    opts = {
-      bind = true, -- This is mandatory, otherwise border config won't get registered.
-      handler_opts = {
-        border = "single",
-      },
-      hint_enable = false,
-    },
-    config = function(_, opts)
-      require("lsp_signature").setup(opts)
-    end,
   },
 
   {
@@ -418,8 +372,8 @@ local plugins_list = {
         diagnostic = true,
         gitsigns = true, -- Requires gitsigns
         handle = true,
-        search = true,   -- Requires hlslens
-        ale = false,     -- Requires ALE
+        search = true, -- Requires hlslens
+        ale = false, -- Requires ALE
       },
     },
   },
@@ -462,12 +416,12 @@ local plugins_list = {
   {
     "numToStr/Comment.nvim",
     keys = {
-      { "gcc", mode = "n",          desc = "Comment toggle current line" },
-      { "gc",  mode = { "n", "o" }, desc = "Comment toggle linewise" },
-      { "gc",  mode = "x",          desc = "Comment toggle linewise (visual)" },
-      { "gbc", mode = "n",          desc = "Comment toggle current block" },
-      { "gb",  mode = { "n", "o" }, desc = "Comment toggle blockwise" },
-      { "gb",  mode = "x",          desc = "Comment toggle blockwise (visual)" },
+      { "gcc", mode = "n", desc = "Comment toggle current line" },
+      { "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
+      { "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
+      { "gbc", mode = "n", desc = "Comment toggle current block" },
+      { "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
+      { "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
     },
     init = function()
       utils.load_mappings("comment")
@@ -543,12 +497,6 @@ local plugins_list = {
       { "<C-\\>", "<cmd>ToggleTerm<CR>", desc = "Open ToggleTerm" },
     },
     opts = require("devil.plugins.configs.toggleterm"),
-  },
-
-  {
-    "lewis6991/satellite.nvim",
-    event = "VeryLazy",
-    opts = {},
   },
 
   -- Only load whichkey after all the gui

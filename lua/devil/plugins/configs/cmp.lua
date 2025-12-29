@@ -1,7 +1,9 @@
 local function cmp_ghost_text()
   local ctx = require("blink.cmp").get_context()
   local item = require("blink.cmp").get_selected_item()
-  if ctx == nil or item == nil then return { "s", "n" } end
+  if ctx == nil or item == nil then
+    return { "s", "n" }
+  end
 
   local item_text = item.textEdit ~= nil and item.textEdit.newText or item.insertText or item.label
   local is_multi_line = item_text:find("\n") ~= nil
@@ -44,11 +46,17 @@ return {
         return { "cmdline" }
       end
       return {}
-    end
+    end,
   },
   sources = {
-    default = { "lsp", "path", "snippets", "buffer" },
+    default = { "lazydev", "lsp", "path", "snippets", "buffer" },
     providers = {
+      lazydev = {
+        name = "LazyDev",
+        module = "lazydev.integrations.blink",
+        -- make lazydev completions top priority (see `:h blink.cmp`)
+        score_offset = 100,
+      },
       lsp = {
         score_offset = 0, -- Boost/penalize the score of the items
       },
@@ -90,8 +98,8 @@ return {
       -- nvim-cmp style menu
       draw = {
         columns = {
-          { "label",     "label_description", gap = 1 },
-          { "kind_icon", "kind",              gap = 1 },
+          { "label", "label_description", gap = 1 },
+          { "kind_icon", "kind", gap = 1 },
         },
         components = {
           kind_icon = {
@@ -124,12 +132,12 @@ return {
               end
               return hl
             end,
-          }
-        }
+          },
+        },
       },
 
       -- Avoid multi-line completion ghost text
-      direction_priority = cmp_ghost_text
+      direction_priority = cmp_ghost_text,
     },
   },
 
@@ -143,6 +151,6 @@ return {
       end,
       "score",
       "sort_text",
-    }
-  }
+    },
+  },
 }
