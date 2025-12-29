@@ -76,7 +76,6 @@ local plugins_list = {
     init = function()
       utils.lazy_load("nvim-treesitter")
     end,
-    cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     build = ":TSUpdate",
     opts = function()
       return require("devil.plugins.configs.treesitter")
