@@ -69,7 +69,6 @@ local plugins_list = {
         end,
       },
       "nvim-treesitter/nvim-treesitter-context",
-      "nvim-treesitter/playground",
       "windwp/nvim-ts-autotag",
       "RRethy/nvim-treesitter-endwise",
     },
