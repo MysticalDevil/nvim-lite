@@ -291,11 +291,4 @@ function M.default_config()
   }
 end
 
----@param lsp_name string
----@param lsp_config table
--- Setup user's lsp custom configs
-function M.setup_custom_settings(lsp_name, lsp_config)
-  vim.lsp.config(lsp_name, M.default_config(), lsp_config)
-end
-
 return M

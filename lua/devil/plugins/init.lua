@@ -86,6 +86,7 @@ local plugins_list = {
 
   {
     "neovim/nvim-lspconfig",
+    priority = 1000,
     dependencies = { "saghen/blink.cmp" },
     config = function()
       require("devil.plugins.configs.lsp")
@@ -178,6 +179,7 @@ local plugins_list = {
           -- See the configuration section for more details
           -- Load luvit types when the `vim.uv` word is found
           { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+          "lazynvim",
         },
       },
     },
