@@ -11,4 +11,3 @@ utils.load_mappings()
 
 require("devil.core.commands")
 require("devil.core.colorscheme")
-require("devil.core.autocmds")

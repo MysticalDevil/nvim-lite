@@ -1,5 +1,4 @@
 local opts = { noremap = true, silent = true }
-
 local keymap = vim.keymap.set
 
 local ts_builtin = require("telescope.builtin")
@@ -9,6 +8,14 @@ local ts_themes = require("telescope.themes")
 keymap("", "<space>", "<nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+-- magic search logic from nvim
+local enable_magic_search = true
+if enable_magic_search then
+  keymap({ "n", "v" }, "/", "/\\v", { remap = false, silent = false })
+else
+  keymap({ "n", "v" }, "/", "/", { remap = false, silent = false })
+end
 
 local M = {}
 
@@ -27,6 +34,9 @@ M.general = {
 
   n = {
     ["<Esc>"] = { "<cmd> noh <CR>", "Clear highlights" },
+    ["<C-d>"] = { "10j", "Five lines down" },
+    ["<C-u>"] = { "10k", "Five lines up" },
+
     -- switch between windows
     ["<C-h>"] = { "<C-w>h", "Window left" },
     ["<C-l>"] = { "<C-w>l", "Window right" },
@@ -38,9 +48,6 @@ M.general = {
     ["<leader><leader>rn"] = { "<cmd> set rnu! <CR>", "Toggle relative number" },
 
     -- Allow moving the cursor through wrapped lines with j, k, <Up> and <Down>
-    -- http://www.reddit.com/r/vim/comments/2k4cbr/problem_with_gj_and_gk/
-    -- empty mode is same as using <cmd> :map
-    -- also don't use g[j|k] when in operator pending mode, so it doesn't alter d, y or c behaviour
     ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
     ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
     ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
@@ -53,43 +60,55 @@ M.general = {
       "LSP formatting",
     },
 
-    ["<leader>w"] = { ":w<CR>", "Save" },
-    ["<leader>q"] = { ":q<CR>", "Quit" },
-    ["<leader>wq"] = { ":wq<CR>", "Write and quit" },
+    -- new buffer
+    ["<leader>bn"] = { "<cmd> enew <CR>", "New buffer" },
 
-    -- s_windows
-    ["sv"] = { ":vsp<CR>", "Split window vertically" },
-    ["sh"] = { ":sp<CR>", "Split window horizontally" },
-    ["sc"] = { "<C-w>c", "Close picked split window" },
-    ["so"] = { "<C-w>o", "Close other split window" },
-    ["s,"] = { ":vertical resize -10<CR>", "Reduce vertical window size" },
-    ["s."] = { ":vertical resize +10<CR>", "Increase vertical window size" },
-    ["sj"] = { ":horizontal resize -5<CR>", "Reduce horizontal window size" },
-    ["sk"] = { ":horizontal resize +5<CR>", "Increase vertical window size" },
-    ["s="] = { "<C-w>=", "Make split windows equal in size" },
+    -- s_windows (Synced with nvim: s -> <leader>w)
+    ["<leader>wv"] = { ":vsp<CR>", "Split window vertically" },
+    ["<leader>wh"] = { ":sp<CR>", "Split window horizontally" },
+    ["<leader>wc"] = { "<C-w>c", "Close picked split window" },
+    ["<leader>wo"] = { "<C-w>o", "Close other split window" },
+    ["<leader>w,"] = { ":vertical resize -10<CR>", "Reduce vertical window size" },
+    ["<leader>w."] = { ":vertical resize +10<CR>", "Increase vertical window size" },
+    ["<leader>wj"] = { ":horizontal resize -5<CR>", "Reduce horizontal window size" },
+    ["<leader>wk"] = { ":horizontal resize +5<CR>", "Increase vertical window size" },
+    ["<leader>w="] = { "<C-w>=", "Make split windows equal in size" },
 
-    -- tabs
-    ["ts"] = { "<cmd>tab split<CR>", "Split window use tab" },
-    ["th"] = { "<cmd>tabprev<CR>", "Switch to previous tab" },
-    ["tj"] = { "<cmd>tabnext<CR>", "Switch to next tab" },
-    ["tf"] = { "<cmd>tabfirst<CR>", "Switch to first tab" },
-    ["tl"] = { "<cmd>tablast<CR>", "Switch to last tab" },
-    ["tc"] = { "<cmd>tabclose<CR>", "Close tab" },
+    -- tabs (Synced with nvim: t -> <leader><Tab>)
+    ["<leader><Tab>s"] = { "<cmd>tab split<CR>", "Split window use tab" },
+    ["<leader><Tab>h"] = { "<cmd>tabprev<CR>", "Switch to previous tab" },
+    ["<leader><Tab>j"] = { "<cmd>tabnext<CR>", "Switch to next tab" },
+    ["<leader><Tab>f"] = { "<cmd>tabfirst<CR>", "Switch to first tab" },
+    ["<leader><Tab>l"] = { "<cmd>tablast<CR>", "Switch to last tab" },
+    ["<leader><Tab>c"] = { "<cmd>tabclose<CR>", "Close tab" },
 
     ["zo"] = { "<CMD>foldopen<CR>", "Open fold" },
     ["zc"] = { "<CMD>foldclose<CR>", "Close fold" },
   },
 
-  t = {},
+  t = {
+    ["<ESC>"] = { "<C-\\><C-n>", "Back to normal mode" },
+    ["<C-x>"] = { vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), "Escape terminal mode" },
+  },
 
   v = {
+    ["<C-j>"] = { "5j", "Five lines down" },
+    ["<C-k>"] = { "5k", "Five lines up" },
+    ["<C-d>"] = { "10j", "Five lines down" },
+    ["<C-u>"] = { "10k", "Five lines up" },
+
     ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
     ["<"] = { "<gv", "Indent line" },
     [">"] = { ">gv", "Indent line" },
   },
 
-  x = {},
+  x = {
+    ["j"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
+    ["k"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
+    -- Don't copy the replaced text after pasting in visual mode
+    ["p"] = { 'p:let @+=@0<CR>:let @"=@0<CR>', "Dont copy replaced text", opts = { silent = true } },
+  },
 }
 
 M.comment = {
@@ -116,8 +135,6 @@ M.comment = {
 M.lspconfig = {
   plugin = true,
 
-  -- See `<cmd> :help vim.lsp.*` for documentation on any of the below functions
-
   n = {
     ["gD"] = {
       function()
@@ -129,10 +146,9 @@ M.lspconfig = {
     ["gd"] = {
       function()
         if vim.bo.filetype == "cs" then
-          -- vim.lsp.buf.definition({ reuse_win = true })
-          -- require("omnisharp_extended").telescope_lsp_definitions()
           require("csharpls_extended").lsp_definitions()
         else
+          -- Synced with nvim: prefer telescope for definition
           ts_builtin.lsp_definitions(ts_themes.get_cursor({ reuse_win = true }))
         end
       end,
@@ -153,7 +169,7 @@ M.lspconfig = {
       "LSP implementation",
     },
 
-    ["gK"] = {
+    ["<leader>ls"] = {
       function()
         vim.lsp.buf.signature_help()
       end,
@@ -172,20 +188,6 @@ M.lspconfig = {
         vim.lsp.buf.code_action()
       end,
       "LSP code action",
-    },
-
-    ["<leader>cA"] = {
-      function()
-        vim.lsp.buf.code_action({
-          context = {
-            only = {
-              "source",
-            },
-            diagnostics = {},
-          },
-        })
-      end,
-      "Source Action",
     },
 
     ["gr"] = {
@@ -243,6 +245,13 @@ M.lspconfig = {
       end,
       "List workspace folders",
     },
+
+    ["<leader>L"] = {
+      function()
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ 0 }), { 0 })
+      end,
+      "Toggle LSP inlay hints",
+    },
   },
 
   v = {
@@ -271,7 +280,6 @@ M.telescope = {
 
   n = {
     -- find
-    -- ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "Find files" },
     ["<leader>ff"] = {
       function()
         require("telescope").extensions.smart_open.smart_open()

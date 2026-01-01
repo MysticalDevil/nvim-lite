@@ -8,6 +8,7 @@ local options = {
   hlsearch = true, -- highlight all matches on previous search pattern
   ignorecase = true, -- ignore case in search patterns
   mouse = "a", -- allow the mous to be used in neovim
+  mousemoveevent = true, -- allow mouse move event (e.g. hover)
   pumheight = 10, -- pop up menu height
   showmode = false, -- we don't need to see things loke -- INSERT -- anymore
   showtabline = 1, -- always show tabs
@@ -59,11 +60,3 @@ vim.opt.runtimepath:remove("/usr/share/vim/vimfiles") -- separate vim plugins fr
 
 vim.g.encoding = "UTF-8"
 vim.loader.enable() -- improve startup time for neovim
-
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "single",
-})
-
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-  border = "single",
-})

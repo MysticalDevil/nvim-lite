@@ -6,7 +6,7 @@ local merge_tb = vim.tbl_deep_extend
 ---@param repository string
 ---@param branch string
 function M.bootstrap(path, repository, branch)
-  if not vim.loop.fs_stat(path) then
+  if not vim.uv.fs_stat(path) then
     vim.notify(("Bootstarting %s is being installed, please wait..."):format(repository), vim.log.levels.INFO)
     vim.fn.system({
       "git",
@@ -47,6 +47,11 @@ function M.load_mappings(section, mapping_opt)
     local mappings = require("devil.core.mappings")
 
     if type(section) == "string" then
+      if not mappings[section] then
+        vim.notify(("Keymap Error: '%s' not found in mappings.lua"):format(section), vim.log.levels.WARN)
+        return
+      end
+
       mappings[section]["plugin"] = nil
       mappings = { mappings[section] }
     end
@@ -55,35 +60,6 @@ function M.load_mappings(section, mapping_opt)
       set_section_map(sect)
     end
   end)
-end
-
--- Lazy load plugins
-function M.lazy_load(plugin)
-  vim.api.nvim_create_autocmd({ "BufRead", "BufWinEnter", "BufNewFile" }, {
-    group = vim.api.nvim_create_augroup("BeLazyOnFileOpen" .. plugin, {}),
-    callback = function()
-      local file = vim.fn.expand("%")
-      local condition = file ~= "neo-tree filesystem [1]" and file ~= "[lazy]" and file ~= ""
-
-      if condition then
-        vim.api.nvim_del_augroup_by_name("BeLazyOnFileOpen" .. plugin)
-
-        -- dont defer for treesitter as it will show slow highlighting
-        -- This deferring only happens only when we do "nvim filename"
-        if plugin ~= "nvim-treesitter" then
-          vim.schedule(function()
-            require("lazy").load({ plugins = plugin })
-
-            if plugin == "nvim-lspconfig" or plugin == "neo-tree" then
-              vim.cmd("silent! do FileType")
-            end
-          end)
-        else
-          require("lazy").load({ plugins = plugin })
-        end
-      end
-    end,
-  })
 end
 
 -- A full icon for lsp label kinds
@@ -207,19 +183,6 @@ M.html_files = {
   "vue", -- *.vue (JavaScript - Vue SFC)
 }
 
--- Proxy LSP name
-local proxy_lsps = {
-  ["null-ls"] = true,
-  ["ast_grep"] = true,
-  ["efm"] = true,
-}
--- Determine whether the obtained LSP is a proxy LSP
----@param name string
----@return boolean
-function M.not_proxy_lsp(name)
-  return not proxy_lsps[name]
-end
-
 -- Format getted LSP name
 ---@param name string
 ---@return string
@@ -240,9 +203,7 @@ function M.get_lsp_info()
   local lsp_names = {}
   for _, client in ipairs(clients) do
     if client.config["filetypes"] and vim.tbl_contains(client.config["filetypes"], buf_ft) then
-      if M.not_proxy_lsp(client.name) then
-        table.insert(lsp_names, client.name)
-      end
+      table.insert(lsp_names, client.name)
     end
   end
 
@@ -255,7 +216,7 @@ end
 
 local inlay_hint = vim.lsp.inlay_hint
 
----@param client lsp.Client
+---@param client vim.lsp.Client
 ---@param bufnr number
 -- Enable inlay hints for supported LSP
 function M.set_inlay_hints(client, bufnr)
@@ -264,16 +225,31 @@ function M.set_inlay_hints(client, bufnr)
     return
   end
 
-  if client.name == "zls" then
-    vim.g.zig_fmt_autosave = 1
+  -- Filtering unstable LSPs
+  local blocker_lsps = {
+    ["null-ls"] = true,
+    ["phpactor"] = true,
+    ["zls"] = false,
+  }
+  if blocker_lsps[client.name] then
+    vim.notify("Skip inlay hints for LSP: " .. client.name, vim.log.levels.WARN)
+    return
   end
 
-  if client.supports_method("textDocument/inlayHint") or client.server_capabilities.inlayHintProvider then
-    inlay_hint.enable(true, { bufnr = bufnr })
+  -- Enabled only it supported
+  local ok = client:supports_method("textDocument/inlayHint")
+    or (client.server_capabilities and client.server_capabilities.inlayHintProvider)
+  if not ok then
+    return
   end
+
+  -- Enable inlay hint
+  pcall(function()
+    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+  end)
 end
 
----@param client lsp.Client
+---@param client vim.lsp.Client
 ---@param bufnr number
 function M.on_attach(client, bufnr)
   client.server_capabilities.documentFormattingProvider = false
@@ -319,7 +295,7 @@ end
 ---@param lsp_config table
 -- Setup user's lsp custom configs
 function M.setup_custom_settings(lsp_name, lsp_config)
-  require("lspconfig")[lsp_name].setup(merge_tb("force", M.default_config(), lsp_config))
+  vim.lsp.config(lsp_name, M.default_config(), lsp_config)
 end
 
 return M

@@ -37,9 +37,6 @@ local plugins_list = {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
     event = "UIEnter",
-    init = function()
-      utils.lazy_load("indent-blankline.nvim")
-    end,
     opts = require("devil.plugins.configs.others").blankline,
   },
 
@@ -64,9 +61,6 @@ local plugins_list = {
       "windwp/nvim-ts-autotag",
       "RRethy/nvim-treesitter-endwise",
     },
-    init = function()
-      utils.lazy_load("nvim-treesitter")
-    end,
     build = ":TSUpdate",
     opts = function()
       return require("devil.plugins.configs.treesitter")
@@ -92,9 +86,6 @@ local plugins_list = {
 
   {
     "neovim/nvim-lspconfig",
-    init = function()
-      require("devil.core.utils").lazy_load("nvim-lspconfig")
-    end,
     dependencies = { "saghen/blink.cmp" },
     config = function()
       require("devil.plugins.configs.lsp")
