@@ -71,9 +71,6 @@ local plugins_list = {
     lazy = true,
     event = "LspAttach",
     dependencies = {
-      "neovim/nvim-lspconfig",
-      "stevearc/conform.nvim",
-      "mfussenegger/nvim-lint",
       "williamboman/mason-lspconfig.nvim",
       { "jay-babu/mason-nvim-dap.nvim", cmd = { "DapInstall", "DapUninstall" } },
       "zapling/mason-conform.nvim",
@@ -85,6 +82,10 @@ local plugins_list = {
 
   {
     "neovim/nvim-lspconfig",
+        priority = 1000,
+    event = { "BufReadPost", "BufNewFile" },
+    cmd = { "LspInfo", "LspInstall", "LspStart" },
+
     dependencies = { "saghen/blink.cmp" },
     config = function()
       require("devil.plugins.configs.lsp")
@@ -162,6 +163,7 @@ local plugins_list = {
 
     {
       "saghen/blink.cmp",
+      event = "VeryLazy",
       dependencies = "rafamadriz/friendly-snippets",
       version = "*",
       opts = function()
@@ -265,24 +267,7 @@ local plugins_list = {
     {
       "lewis6991/gitsigns.nvim",
       ft = { "gitcommit", "diff" },
-      init = function()
-        -- load gitsigns only when a git file is opened
-        vim.api.nvim_create_autocmd({ "BufRead" }, {
-          group = vim.api.nvim_create_augroup("GitSignsLazyLoad", { clear = true }),
-          callback = function()
-            vim.fn.jobstart({ "git", "-C", vim.loop["cwd"](), "rev-parse" }, {
-              on_exit = function(_, return_code)
-                if return_code == 0 then
-                  vim.api.nvim_del_augroup_by_name("GitSignsLazyLoad")
-                  vim.schedule(function()
-                    require("lazy").load({ plugins = { "gitsigns.nvim" } })
-                  end)
-                end
-              end,
-            })
-          end,
-        })
-      end,
+      event = { "BufReadPre", "BufNewFile" },
       opts = require("devil.plugins.configs.others").gitsigns,
     },
 

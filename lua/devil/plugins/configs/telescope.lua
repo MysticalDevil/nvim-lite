@@ -112,12 +112,6 @@ return {
       disable_devicons = false,
       open_buffer_indicators = { previous = "👀", others = "🙈" },
     },
-    ["ui-select"] = {
-      require("telescope.themes").get_dropdown({
-        -- even more opts
-        initial_mode = "normal",
-      }),
-    },
     undo = {
       use_delta = true,
       use_custom_command = nil, -- setting this implies `use_delta = false`. Accepted format is: { "bash", "-c", "echo '$DIFF' | delta" }

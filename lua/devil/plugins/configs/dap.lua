@@ -1,16 +1,16 @@
 local dap = require("dap")
 local dapui = require("dapui")
 
-dap.adapters.lldb = {
-  type = "executable",
-  command = "/usr/bin/lldb-vscode",
-  name = "lldb",
-}
+require("mason-nvim-dap").setup({
+  automatic_installation = false,
+  handlers = {},
+  ensure_installed = { "codelldb" },
+})
 
 dap.configurations.cpp = {
   {
     name = "Launch",
-    type = "lldb",
+    type = "codelldb",
     program = function()
       return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
     end,
