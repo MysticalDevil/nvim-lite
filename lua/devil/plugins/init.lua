@@ -19,18 +19,17 @@ local plugins_list = {
   },
   { "EdenEast/nightfox.nvim" },
 
+  -- Replaced nvim-web-devicons with mini.icons (lighter and compatible)
   {
-    "nvim-tree/nvim-web-devicons",
-    opts = {
-      override = {
-        zsh = {
-          icon = "",
-          color = "#428850",
-          cterm_color = "65",
-          name = "Zsh",
-        },
-      },
-    },
+    "echasnovski/mini.icons",
+    lazy = true,
+    opts = {},
+    init = function()
+      package.preload["nvim-web-devicons"] = function()
+        require("mini.icons").mock_nvim_web_devicons()
+        return package.loaded["nvim-web-devicons"]
+      end
+    end,
   },
 
   {
@@ -86,7 +85,6 @@ local plugins_list = {
 
   {
     "neovim/nvim-lspconfig",
-    priority = 1000,
     dependencies = { "saghen/blink.cmp" },
     config = function()
       require("devil.plugins.configs.lsp")
@@ -126,7 +124,8 @@ local plugins_list = {
   {
     "folke/trouble.nvim",
     cmd = "Trouble",
-    dependencies = "nvim-tree/nvim-web-devicons",
+    -- mini.icons mocks web-devicons, so explicit dependency works fine
+    dependencies = "echasnovski/mini.icons",
     keys = {
       {
         "<leader>xx",
@@ -179,27 +178,11 @@ local plugins_list = {
           -- See the configuration section for more details
           -- Load luvit types when the `vim.uv` word is found
           { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-          "lazynvim",
         },
       },
     },
 
     { "b0o/schemastore.nvim", ft = { "json", "yaml" } },
-
-    {
-      "ray-x/go.nvim",
-      ft = { "go", "gomod", "gowork", "gosum" },
-      event = { "CmdlineEnter" },
-      build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
-      dependencies = { -- optional packages
-        "ray-x/guihua.lua",
-        "neovim/nvim-lspconfig",
-        "nvim-treesitter/nvim-treesitter",
-      },
-      opts = {
-        dianostic = false,
-      },
-    },
 
     { "vuki656/package-info.nvim", event = "BufRead package.json" },
 
@@ -264,12 +247,6 @@ local plugins_list = {
     },
 
     {
-      "onsails/lspkind.nvim",
-      event = "LspAttach",
-      opts = require("devil.plugins.configs.others").lspkind,
-    },
-
-    {
       "mfussenegger/nvim-dap",
       lazy = true,
       dependencies = {
@@ -315,7 +292,7 @@ local plugins_list = {
       branch = "v3.x",
       dependencies = {
         "nvim-lua/plenary.nvim",
-        "nvim-tree/nvim-web-devicons",
+        "echasnovski/mini.icons",
         "MunifTanjim/nui.nvim",
       },
       cmd = "Neotree",
@@ -393,20 +370,6 @@ local plugins_list = {
     },
 
     {
-      "rcarriga/nvim-notify",
-      lazy = false,
-      opts = {
-        stages = "slide",
-        timeout = 5000,
-        render = "default",
-      },
-      config = function(_, opts)
-        require("notify").setup(opts)
-        vim.notify = require("notify")
-      end,
-    },
-
-    {
       "petertriho/nvim-scrollbar",
       opts = {
         handlers = {
@@ -460,19 +423,12 @@ local plugins_list = {
       end,
     },
 
+    -- Replacement for Comment.nvim
     {
-      "numToStr/Comment.nvim",
-      keys = {
-        { "gcc", mode = "n", desc = "Comment toggle current line" },
-        { "gc", mode = { "n", "o" }, desc = "Comment toggle linewise" },
-        { "gc", mode = "x", desc = "Comment toggle linewise (visual)" },
-        { "gbc", mode = "n", desc = "Comment toggle current block" },
-        { "gb", mode = { "n", "o" }, desc = "Comment toggle blockwise" },
-        { "gb", mode = "x", desc = "Comment toggle blockwise (visual)" },
-      },
-      init = function()
-        utils.load_mappings("comment")
-      end,
+      "folke/ts-comments.nvim",
+      opts = {},
+      event = "VeryLazy",
+      enabled = vim.fn.has("nvim-0.10.0") == 1,
     },
 
     {
@@ -490,7 +446,6 @@ local plugins_list = {
         "LinArcX/telescope-env.nvim",
         "debugloop/telescope-undo.nvim",
         "Marskey/telescope-sg",
-        "nvim-telescope/telescope-ui-select.nvim",
         "nvim-telescope/telescope-file-browser.nvim",
         "nvim-telescope/telescope-project.nvim",
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
