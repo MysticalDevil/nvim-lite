@@ -1,18 +1,17 @@
 local get_hex = require("cokeline.hlgroups").get_hl_attr
-
--- local is_picking_focus = require("cokeline.mappings").is_picking_focus
--- local is_picking_close = require("cokeline.mappings").is_picking_close
 local mappings = require("cokeline.mappings")
 
-local red = vim.g.terminal_color_1
-local green = vim.g.terminal_color_2
-local yellow = vim.g.terminal_color_3
+-- Use highlight groups for colors to ensure theme consistency
+-- Fallback to hardcoded colors only if highlight retrieval fails
+local red = get_hex("DiagnosticError", "fg") or "#E06C75"
+local yellow = get_hex("DiagnosticWarn", "fg") or "#E5C07B"
+local green = get_hex("String", "fg") or "#98C379"
 
-local comments_fg = get_hex("Comment", "fg")
-local errors_fg = get_hex("DiagnosticError", "fg")
-local warnings_fg = get_hex("DiagnosticWarn", "fg")
+local comments_fg = get_hex("Comment", "fg") or "#5C6370"
+local errors_fg = get_hex("DiagnosticError", "fg") or "#E06C75"
+local warnings_fg = get_hex("DiagnosticWarn", "fg") or "#E5C07B"
+local normal_bg = get_hex("Normal", "bg") or "#1E222A"
 
--- Start of components table
 local components = {
   space = {
     text = " ",
@@ -37,7 +36,12 @@ local components = {
         or buffer.devicon.icon
     end,
     fg = function(buffer)
-      return (mappings.is_picking_focus() and yellow) or (mappings.is_picking_close() and red) or buffer.devicon.color
+      if mappings.is_picking_focus() then
+        return yellow
+      elseif mappings.is_picking_close() then
+        return red
+      end
+      return buffer.devicon.color
     end,
     style = function(_)
       return (mappings.is_picking_focus() or mappings.is_picking_close()) and "italic,bold" or nil
@@ -61,7 +65,7 @@ local components = {
     end,
     truncation = { priority = 2 },
     bg = function()
-      return get_hex("Normal", "bg")
+      return normal_bg
     end,
   },
 
@@ -95,8 +99,8 @@ local components = {
 
   diagnostics = {
     text = function(buffer)
-      return (buffer.diagnostics.errors ~= 0 and " 󰅚 " .. buffer.diagnostics.errors)
-        or (buffer.diagnostics.warnings ~= 0 and "  " .. buffer.diagnostics.warnings)
+      return (buffer.diagnostics.errors ~= 0 and "  " .. buffer.diagnostics.errors) -- Icon synced with LSP
+        or (buffer.diagnostics.warnings ~= 0 and "  " .. buffer.diagnostics.warnings)
         or ""
     end,
     fg = function(buffer)
@@ -128,66 +132,26 @@ return {
     filter_visible = function(buffer)
       return buffer.filename ~= "netrw"
     end,
-
-    -- If set to `last` new buffers are added to the end of the bufferline,
-    -- if `next` they are added next to the current buffer.
-    -- if set to `directory` buffers are sorted by their full path.
-    -- if set to `number` buffers are sorted by bufnr, as in default Neovim
-    -- default: 'last'.
-    ---@type 'last' | 'next' | 'directory' | 'number' | fun(a: Buffer, b: Buffer):boolean
     new_buffers_position = "last",
-
-    -- If true, right clicking a buffer will close it
-    -- The close button will still work normally
-    -- Default: true
-    ---@type boolean
     delete_on_right_click = true,
   },
 
   mappings = {
-    -- Controls what happens when the first (last) buffer is focused and you
-    -- try to focus/switch the previous (next) buffer. If `true` the last
-    -- (first) buffers gets focused/switched, if `false` nothing happens.
-    -- default: `true`.
-    ---@type boolean
     cycle_prev_next = true,
-
-    -- Disables mouse mappings
-    -- default: `false`.
-    ---@type boolean
     disable_mouse = false,
   },
 
-  -- Maintains a history of focused buffers using a ringbuffer
   history = {
-    ---@type boolean
     enabled = true,
-    ---The number of buffers to save in the history
-    ---@type integer
     size = 2,
   },
 
   rendering = {
-    -- The maximum number of characters a rendered buffer is allowed to take
-    -- up. The buffer will be truncated if its width is bigger than this
-    -- value.
-    -- default: `999`.
-    ---@type integer
     max_buffer_width = 999,
   },
 
   pick = {
-    -- Whether to use the filename's first letter first before
-    -- picking a letter from the valid letters list in order.
-    -- default: `true`
-    ---@type boolean
     use_filename = true,
-
-    -- The list of letters that are valid as pick letters. Sorted by
-    -- keyboard reachability by default, but may require tweaking for
-    -- non-QWERTY keyboard layouts.
-    -- default: `'asdfjkl;ghnmxcvbziowerutyqpASDFJKLGHNMXCVBZIOWERTYQP'`
-    ---@type string
     letters = "asdfjkl;ghnmxcvbziowerutyqpASDFJKLGHNMXCVBZIOWERTYQP",
   },
 
@@ -199,7 +163,7 @@ return {
       return get_hex("ColorColumn", "bg")
     end,
   },
-  -- The highlight group used to fill the tabline space
+
   fill_hl = "TabLineFill",
 
   components = {
@@ -216,36 +180,25 @@ return {
     components.space,
   },
 
-  -- Custom areas can be displayed on the right hand side of the bufferline.
-  -- They act identically to buffer components, except their methods don't take a Buffer object.
-  -- If you want a rhs component to be stateful, you can wrap it in a closure containing state.
-  ---@type Component[] | false
   rhs = {},
 
-  -- Tabpages can be displayed on either the left or right of the bufferline.
-  -- They act the same as other components, except they are passed TabPage objects instead of
-  -- buffer objects.
-  ---@type table | false
   tabs = {
     placement = "right",
-    ---@type Component[]
     components = {
       components.tabs_index,
     },
   },
 
   sidebar = {
-    filetype = { "NvimTree", "neo-tree" },
+    filetype = { "neo-tree" },
     components = {
       {
-        text = function(buf)
-          return buf.filetype
-        end,
+        text = "  EXPLORER",
         fg = function()
-          return get_hex("WarningMsg", "fg")
+          return get_hex("NvimTreeFolderName", "fg") or get_hex("Directory", "fg")
         end,
         bg = function()
-          return get_hex("NvimTreeNormal", "bg")
+          return get_hex("NvimTreeNormal", "bg") or get_hex("Normal", "bg")
         end,
         bold = true,
       },
