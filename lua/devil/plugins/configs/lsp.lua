@@ -21,6 +21,7 @@ local servers = {
   lemminx = {},
   marksman = {},
   neocmake = {},
+  nixd = {},
   ruff = {},
   tailwindcss = {},
   taplo = {},
