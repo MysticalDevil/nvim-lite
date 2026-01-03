@@ -82,7 +82,7 @@ local plugins_list = {
 
   {
     "neovim/nvim-lspconfig",
-        priority = 1000,
+    priority = 1000,
     event = { "BufReadPost", "BufNewFile" },
     cmd = { "LspInfo", "LspInstall", "LspStart" },
 
@@ -314,13 +314,7 @@ local plugins_list = {
         "nvim-telescope/telescope-fzf-native.nvim",
       },
       opts = {
-        bar = {
-          attach_events = { "BufWinEnter", "BufWritePost" },
-          update_events = {
-            win = { "CursorMoved", "CursorMovedI", "WinResized" },
-          },
-        },
-        icons = { kinds = { symbols = utils.kind_icons } },
+        bar = {},
       },
     },
 
