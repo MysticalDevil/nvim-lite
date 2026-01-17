@@ -10,14 +10,8 @@ local plugins_list = {
   { "nvim-lua/plenary.nvim", lazy = false },
   { "folke/lazy.nvim", lazy = false },
   { "stevearc/dressing.nvim", lazy = false },
-
-  {
-    "navarasu/onedark.nvim",
-    opts = {
-      style = "darker",
-    },
-  },
-  { "EdenEast/nightfox.nvim" },
+  {"olimorris/onedarkpro.nvim"},
+  {"folke/tokyonight.nvim"},
 
   -- Replaced nvim-web-devicons with mini.icons (lighter and compatible)
   {
