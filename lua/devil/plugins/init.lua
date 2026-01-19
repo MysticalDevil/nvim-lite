@@ -10,8 +10,8 @@ local plugins_list = {
   { "nvim-lua/plenary.nvim", lazy = false },
   { "folke/lazy.nvim", lazy = false },
   { "stevearc/dressing.nvim", lazy = false },
-  {"olimorris/onedarkpro.nvim"},
-  {"folke/tokyonight.nvim"},
+  { "olimorris/onedarkpro.nvim" },
+  { "folke/tokyonight.nvim" },
 
   -- Replaced nvim-web-devicons with mini.icons (lighter and compatible)
   {
@@ -41,7 +41,7 @@ local plugins_list = {
 
   {
     "nvim-treesitter/nvim-treesitter",
-    lazy = false,
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
@@ -267,7 +267,6 @@ local plugins_list = {
 
     {
       "nvim-neo-tree/neo-tree.nvim",
-      lazy = false,
       branch = "v3.x",
       dependencies = {
         "nvim-lua/plenary.nvim",
@@ -283,7 +282,7 @@ local plugins_list = {
 
     {
       "rebelot/heirline.nvim",
-      lazy = false,
+      event = "UIEnter",
       opts = function()
         return require("devil.plugins.configs.heirline")
       end,
