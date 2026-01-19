@@ -27,13 +27,6 @@ local plugins_list = {
   },
 
   {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    event = "UIEnter",
-    opts = require("devil.plugins.configs.others").blankline,
-  },
-
-  {
     "kylechui/nvim-surround",
     version = "*",
     event = "VeryLazy",
@@ -89,29 +82,67 @@ local plugins_list = {
   {
     "folke/noice.nvim",
     event = "VeryLazy",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      {
-        "rcarriga/nvim-notify",
-        lazy = false,
-        opts = {
-          stages = "slide",
-          timeout = 5000,
-          render = "default",
-        },
-        config = function(_, opts)
-          require("notify").setup(opts)
-          vim.notify = require("notify")
-        end,
-      },
-    },
+    dependencies = { "MunifTanjim/nui.nvim" },
     opts = {
       presets = {
         bottom_search = true, -- use a classic bottom cmdline for search
         command_palette = true, -- position the cmdline and popupmenu together
         long_message_to_split = true, -- long messages will be sent to a split
-        inc_rename = true, -- enables an input dialog for inc-rename.nvim
         lsp_doc_border = true, -- add a border to hover docs and signature help
+      },
+    },
+  },
+
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = require("devil.plugins.configs.snacks"),
+    keys = {
+      {
+        "<c-\\>",
+        function()
+          require("snacks").terminal()
+        end,
+        desc = "Toggle Terminal",
+      },
+
+      {
+        "<leader>rn",
+        function()
+          require("snacks").rename.rename_file()
+        end,
+        desc = "Rename File",
+      },
+
+      {
+        "<leader>gg",
+        function()
+          require("snacks").lazygit()
+        end,
+        desc = "Lazygit",
+      },
+      {
+        "<leader>gb",
+        function()
+          require("snacks").git.blame_line()
+        end,
+        desc = "Git Blame Line",
+      },
+
+      {
+        "<leader>bd",
+        function()
+          require("snacks").bufdelete()
+        end,
+        desc = "Delete Buffer",
+      },
+      {
+        "<leader>rf",
+        function()
+          require("snacks").rename.rename_file()
+        end,
+        desc = "Rename File",
       },
     },
   },
@@ -324,77 +355,6 @@ local plugins_list = {
       },
     },
 
-    {
-      "smjonas/inc-rename.nvim",
-      event = "LspAttach",
-      keys = {
-        {
-          "<leader>rn",
-          function()
-            return ":IncRename " .. vim.fn.expand("<cword>")
-          end,
-          expr = true,
-        },
-      },
-      opts = {
-        input_buffer_type = "dressing",
-      },
-    },
-
-    {
-      "petertriho/nvim-scrollbar",
-      opts = {
-        handlers = {
-          cursor = true,
-          diagnostic = true,
-          gitsigns = true, -- Requires gitsigns
-          handle = true,
-          search = true, -- Requires hlslens
-          ale = false, -- Requires ALE
-        },
-      },
-    },
-
-    {
-      "goolord/alpha-nvim",
-      event = "VimEnter",
-      opts = function()
-        return require("devil.plugins.configs.alpha")
-      end,
-      config = function(_, dashboard)
-        -- close Lazy and re-open when the dashboard is ready
-        if vim.o.filetype == "lazy" then
-          vim.cmd.close()
-          vim.api.nvim_create_autocmd("User", {
-            pattern = "AlphaReady",
-            callback = function()
-              require("lazy").show()
-            end,
-          })
-        end
-
-        require("alpha").setup(dashboard.opts) ---@diagnostic disable-line
-
-        vim.api.nvim_create_autocmd("User", {
-          pattern = "LazyVimStarted",
-          callback = function()
-            local stats = require("lazy").stats()
-            local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-            local version = "  󰥱 v"
-              .. vim.version().major
-              .. "."
-              .. vim.version().minor
-              .. "."
-              .. vim.version().patch
-            local plugins = "⚡Neovim loaded " .. stats.count .. " plugins in " .. ms .. "ms"
-            local footer = version .. "\t" .. plugins .. "\n"
-            dashboard.section.footer.val = footer
-            pcall(vim.cmd.AlphaRedraw)
-          end,
-        })
-      end,
-    },
-
     -- Replacement for Comment.nvim
     {
       "folke/ts-comments.nvim",
@@ -441,16 +401,6 @@ local plugins_list = {
         -- Optional.  If installed, native fzy will be used when match_algorithm is fzy
         { "nvim-telescope/telescope-fzy-native.nvim" },
       },
-    },
-
-    {
-      "akinsho/toggleterm.nvim",
-      version = "*",
-      cmd = "ToggleTerm",
-      keys = {
-        { "<C-\\>", "<cmd>ToggleTerm<CR>", desc = "Open ToggleTerm" },
-      },
-      opts = require("devil.plugins.configs.toggleterm"),
     },
 
     -- Only load whichkey after all the gui
