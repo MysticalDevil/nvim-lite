@@ -1,6 +1,5 @@
 return {
   bigfile = { enabled = true },
-
   dashboard = {
     enabled = true,
     preset = {
@@ -19,21 +18,15 @@ return {
       { section = "startup" },
     },
   },
-
   indent = {
     enabled = true,
     animate = { enabled = true },
   },
-
   rename = { enabled = true },
-
   scroll = { enabled = true },
-
+  scope = { enabled = true },
   notifier = { enabled = true },
-
   quickfile = { enabled = true },
-
   statuscolumn = { enabled = true },
-
   words = { enabled = true },
 }

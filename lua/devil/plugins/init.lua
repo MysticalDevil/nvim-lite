@@ -9,7 +9,6 @@ local utils = require("devil.core.utils")
 local plugins_list = {
   { "nvim-lua/plenary.nvim", lazy = false },
   { "folke/lazy.nvim", lazy = false },
-  { "stevearc/dressing.nvim", lazy = false },
   { "olimorris/onedarkpro.nvim" },
   { "folke/tokyonight.nvim" },
 
@@ -98,57 +97,12 @@ local plugins_list = {
     priority = 1000,
     lazy = false,
     opts = require("devil.plugins.configs.snacks"),
-    keys = {
-      {
-        "<c-\\>",
-        function()
-          require("snacks").terminal()
-        end,
-        desc = "Toggle Terminal",
-      },
-
-      {
-        "<leader>rn",
-        function()
-          require("snacks").rename.rename_file()
-        end,
-        desc = "Rename File",
-      },
-
-      {
-        "<leader>gg",
-        function()
-          require("snacks").lazygit()
-        end,
-        desc = "Lazygit",
-      },
-      {
-        "<leader>gb",
-        function()
-          require("snacks").git.blame_line()
-        end,
-        desc = "Git Blame Line",
-      },
-
-      {
-        "<leader>bd",
-        function()
-          require("snacks").bufdelete()
-        end,
-        desc = "Delete Buffer",
-      },
-      {
-        "<leader>rf",
-        function()
-          require("snacks").rename.rename_file()
-        end,
-        desc = "Rename File",
-      },
-    },
+    keys = utils.get_lazy_keys("snacks"),
   },
 
   {
     "folke/trouble.nvim",
+    event = "LspAttach",
     cmd = "Trouble",
     -- mini.icons mocks web-devicons, so explicit dependency works fine
     dependencies = "echasnovski/mini.icons",
@@ -204,7 +158,9 @@ local plugins_list = {
         library = {
           -- See the configuration section for more details
           -- Load luvit types when the `vim.uv` word is found
+          "lazy.nvim",
           { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+          { path = "snacks.nvim", words = { "Snacks" } },
         },
       },
     },
@@ -281,9 +237,7 @@ local plugins_list = {
         "theHamsta/nvim-dap-virtual-text",
         "LiadOz/nvim-dap-repl-highlights",
       },
-      init = function()
-        utils.load_mappings("dap")
-      end,
+      keys = utils.get_lazy_keys("dap"),
       config = function()
         require("devil.plugins.configs.dap")
       end,
@@ -305,9 +259,7 @@ local plugins_list = {
         "MunifTanjim/nui.nvim",
       },
       cmd = "Neotree",
-      init = function()
-        utils.load_mappings("neo_tree")
-      end,
+      keys = utils.get_lazy_keys("neo_tree"),
       opts = require("devil.plugins.configs.neo-tree"),
     },
 
@@ -321,11 +273,9 @@ local plugins_list = {
 
     {
       "willothy/nvim-cokeline",
-      lazy = false,
+      event = "VeryLazy",
       dependencies = "famiu/bufdelete.nvim",
-      init = function()
-        utils.load_mappings("cokeline")
-      end,
+      keys = utils.get_lazy_keys("cokeline"),
       opts = function()
         return require("devil.plugins.configs.cokeline")
       end,
@@ -383,9 +333,7 @@ local plugins_list = {
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       },
       cmd = "Telescope",
-      init = function()
-        utils.load_mappings("telescope")
-      end,
+      keys = utils.get_lazy_keys("telescope"),
       opts = function()
         return require("devil.plugins.configs.telescope")
       end,
@@ -407,9 +355,6 @@ local plugins_list = {
     {
       "folke/which-key.nvim",
       keys = { "<leader>", "<c-r>", "<c-w>", '"', "'", "`", "c", "v", "g" },
-      init = function()
-        utils.load_mappings("whichkey")
-      end,
       cmd = "WhichKey",
     },
   },
