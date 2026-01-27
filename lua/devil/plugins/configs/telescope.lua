@@ -1,3 +1,20 @@
+local telescope = require("telescope")
+
+local extensions_list = {
+  "env",
+  "file_browser",
+  "fzf",
+  "project",
+  "smart_open",
+  "ui-select",
+  "undo",
+  "ast_grep",
+}
+
+for _, value in pairs(extensions_list) do
+  telescope.load_extension(value)
+end
+
 return {
   defaults = {
     initial_mode = "insert",
@@ -64,17 +81,6 @@ return {
     buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
   },
 
-  extensions_list = {
-    "env",
-    "file_browser",
-    "fzf",
-    "project",
-    "smart_open",
-    "ui-select",
-    "undo",
-    "ast_grep",
-  },
-
   extensions = {
     ast_grep = {
       command = {
@@ -111,6 +117,9 @@ return {
       match_algorithm = "fzy",
       disable_devicons = false,
       open_buffer_indicators = { previous = "👀", others = "🙈" },
+    },
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown({}),
     },
     undo = {
       use_delta = true,

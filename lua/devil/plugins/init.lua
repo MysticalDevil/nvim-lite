@@ -330,6 +330,7 @@ local plugins_list = {
         "Marskey/telescope-sg",
         "nvim-telescope/telescope-file-browser.nvim",
         "nvim-telescope/telescope-project.nvim",
+        "nvim-telescope/telescope-ui-select.nvim",
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       },
       cmd = "Telescope",
