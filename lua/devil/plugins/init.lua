@@ -339,15 +339,6 @@ local plugins_list = {
         return require("devil.plugins.configs.telescope")
       end,
     },
-    {
-      "danielfalk/smart-open.nvim",
-      lazy = true,
-      branch = "0.2.x",
-      dependencies = {
-        "kkharji/sqlite.lua",
-        { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-      },
-    },
 
     -- Only load whichkey after all the gui
     {

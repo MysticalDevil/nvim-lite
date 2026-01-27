@@ -5,7 +5,6 @@ local extensions_list = {
   "file_browser",
   "fzf",
   "project",
-  "smart_open",
   "ui-select",
   "undo",
   "ast_grep",
