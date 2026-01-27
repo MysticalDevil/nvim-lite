@@ -9,7 +9,7 @@ end
 
 require("mason-lspconfig").setup({
   automatic_installation = true,
-  ensure_installed = { "gopls", "lua_ls", "rust_analyzer", "tsgo", "zls", "clangd" },
+  ensure_installed = { "gopls", "lua_ls", "rust_analyzer", "tsgo", "zls" },
 })
 
 local servers = {
