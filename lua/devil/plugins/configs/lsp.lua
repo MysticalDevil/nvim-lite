@@ -16,6 +16,7 @@ local servers = {
   bashls = {},
   cssls = {},
   cssmodules_ls = {},
+  dockerls = {},
   emmet_language_server = {},
   html = {},
   lemminx = {},
