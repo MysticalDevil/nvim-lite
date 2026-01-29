@@ -94,6 +94,9 @@ return {
   },
 
   completion = {
+    accept = {
+      auto_brackets = { enabled = true },
+    },
     ghost_text = { enabled = true },
     documentation = {
       auto_show = true,
