@@ -195,10 +195,10 @@ return {
       {
         text = "  EXPLORER",
         fg = function()
-          return get_hex("NvimTreeFolderName", "fg") or get_hex("Directory", "fg")
+          return get_hex("NeoTreeDirectoryName", "fg") or get_hex("Directory", "fg", "#7AA2F7")
         end,
         bg = function()
-          return get_hex("NvimTreeNormal", "bg") or get_hex("Normal", "bg")
+          return get_hex("NeoTreeNormal", "bg") or normal_bg
         end,
         bold = true,
       },
