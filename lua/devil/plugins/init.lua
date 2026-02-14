@@ -139,6 +139,7 @@ local plugins_list = {
         desc = "Quickfix List (Trouble)",
       },
     },
+  },
 
     {
       "saghen/blink.cmp",
@@ -358,7 +359,6 @@ local plugins_list = {
       keys = { "<leader>", "<c-r>", "<c-w>", '"', "'", "`", "c", "v", "g" },
       cmd = "WhichKey",
     },
-  },
 }
 
 local lazy_opts = require("devil.plugins.configs.lazy") ---@diagnostic disable-line
