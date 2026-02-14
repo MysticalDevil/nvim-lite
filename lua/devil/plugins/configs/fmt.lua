@@ -30,16 +30,15 @@ return {
     typescript = { "prettier" },
     typescriptreact = { "prettier" },
     zig = { "zigfmt" },
-    -- Use the "*" filetype to run formatters on all filetypes.
-    ["*"] = { "codespell" },
+    markdown = { "codespell" },
+    text = { "codespell" },
+    gitcommit = { "codespell" },
     -- Use the "_" filetype to run formatters on filetypes that don't
     -- have other formatters configured.
     ["_"] = { "trim_whitespace" },
   },
-  -- If this is set, Conform will run the formatter asynchronously after save.
-  -- It will pass the table to conform.format().
-  -- This can also be a function that returns the table.
-  format_after_save = {
+  -- Use pre-save formatting to keep one predictable formatting trigger.
+  format_on_save = {
     lsp_fallback = true,
   },
   -- Set the log level. Use `:ConformInfo` to see the location of the log file.

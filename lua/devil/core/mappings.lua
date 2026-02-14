@@ -333,7 +333,7 @@ M.gitsigns = {
       "Preview hunk",
     },
 
-    ["<leader>gb"] = {
+    ["<leader>gB"] = {
       function()
         require("gitsigns").blame_line()
       end,
@@ -366,8 +366,8 @@ M.cokeline = {
   plugin = true,
 
   n = {
-    ["<C-h>"] = { "<Plug>(cokeline-focus-prev)", "Cycle focus previous buffer" },
-    ["<C-l>"] = { "<Plug>(cokeline-focus-next)", "Cycle focus next buffer" },
+    ["<S-h>"] = { "<Plug>(cokeline-focus-prev)", "Cycle focus previous buffer" },
+    ["<S-l>"] = { "<Plug>(cokeline-focus-next)", "Cycle focus next buffer" },
     -- ["<C-w>"] = { "<CMD>Bdelete!<CR>", "Delete buffer" },
     ["<C-w>"] = { "<Plug>(cokeline-pick-close)", "Close buffer" },
     ["<leader>p"] = { "<Plug>(cokeline-switch-prev)", "Cycle switch previous buffer but not focus" },
@@ -494,7 +494,7 @@ M.snacks = {
       end,
       "Startup Profiler",
     },
-    ["<leader>n"] = {
+    ["<leader>nh"] = {
       function()
         Snacks.notifier.show_history()
       end,

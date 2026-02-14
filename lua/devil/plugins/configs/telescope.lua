@@ -12,7 +12,10 @@ local extensions_list = {
 }
 
 for _, value in pairs(extensions_list) do
-  telescope.load_extension(value)
+  local ok, err = pcall(telescope.load_extension, value)
+  if not ok then
+    vim.notify(("telescope extension '%s' load failed: %s"):format(value, err), vim.log.levels.WARN)
+  end
 end
 
 return {
