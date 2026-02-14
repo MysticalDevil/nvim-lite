@@ -29,16 +29,9 @@ local servers = {
   vimls = {},
 
   clangd = {
-    on_attach = function(client, bufnr)
-      -- Custom on_attach for clangd (merges with utils.on_attach internally via utils.setup_custom_settings logic?
-      -- Note: utils.setup_custom_settings merges opts, but function merging might be tricky.
-      -- To be safe and utilize utils fully, we rely on utils.on_attach for mapping/inlay_hints
-      -- and only add clangd-specific overrides here if setup_custom_settings handles function hooks.
-      -- Looking at utils.lua: It merges tables. For functions it might replace.
-      -- Best approach: Let utils handle the basics.
+    on_attach = function(client, _)
       client.server_capabilities.documentFormattingProvider = false
       client.server_capabilities.documentRangeFormattingProvider = false
-      utils.on_attach(client, bufnr) -- Call common on_attach explicitly
     end,
     settings = {
       clangd = {
