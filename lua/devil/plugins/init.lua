@@ -106,6 +106,7 @@ local plugins_list = {
     cmd = "Trouble",
     -- mini.icons mocks web-devicons, so explicit dependency works fine
     dependencies = "echasnovski/mini.icons",
+    opts = { use_diagnostic_signs = true },
     keys = {
       {
         "<leader>xx",
@@ -137,7 +138,6 @@ local plugins_list = {
         "<cmd>Trouble qflist toggle<cr>",
         desc = "Quickfix List (Trouble)",
       },
-      opts = { use_diagnostic_signs = true },
     },
 
     {

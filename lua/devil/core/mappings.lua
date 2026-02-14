@@ -48,7 +48,7 @@ M.general = {
     ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
 
-    ["<leader>ff"] = {
+    ["<leader>bf"] = {
       function()
         vim.lsp.buf.format({ async = true })
       end,
