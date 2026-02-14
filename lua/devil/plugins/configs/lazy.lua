@@ -1,6 +1,5 @@
 return {
   defaults = { lazy = true },
-  install = { colorscheme = { "carbonfox" } },
 
   ui = {
     border = "single",
@@ -36,12 +35,10 @@ return {
         "zipPlugin",
         "tutor",
         "rplugin",
-        "syntax",
         "synmenu",
         "optwin",
         "compiler",
         "bugreport",
-        "ftplugin",
       },
     },
   },

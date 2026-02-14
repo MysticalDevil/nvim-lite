@@ -52,8 +52,8 @@ autocmd("FileType", {
   pattern = { "cs", "java", "kotlin", "php" },
   desc = "Use 4 spaces indent for some filetypes",
   callback = function()
-    vim.o.shiftwidth = 4
-    vim.o.tabstop = 4
-    vim.o.expandtab = true
+    vim.bo.shiftwidth = 4
+    vim.bo.tabstop = 4
+    vim.bo.expandtab = true
   end,
 })
