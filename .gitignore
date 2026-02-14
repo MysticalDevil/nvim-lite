@@ -3,3 +3,5 @@
 
 lazy-lock.json
 .luarc.json
+
+.nvimlog

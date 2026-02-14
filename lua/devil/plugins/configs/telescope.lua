@@ -8,6 +8,7 @@ local extensions_list = {
   "ui-select",
   "undo",
   "ast_grep",
+  "smart_open",
 }
 
 for _, value in pairs(extensions_list) do
