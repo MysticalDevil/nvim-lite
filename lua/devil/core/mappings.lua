@@ -106,27 +106,6 @@ M.general = {
   },
 }
 
-M.comment = {
-  plugin = true,
-
-  -- toggle comment in both modes
-  n = {
-    ["<leader>/"] = {
-      function()
-        require("Comment.api").toggle.linewise.current()
-      end,
-      "Toggle comment",
-    },
-  },
-
-  v = {
-    ["<leader>/"] = {
-      "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
-      "Toggle comment",
-    },
-  },
-}
-
 M.lspconfig = {
   plugin = true,
 
@@ -383,37 +362,6 @@ M.gitsigns = {
   },
 }
 
-M.bufferline = {
-  plugin = true,
-
-  n = {
-    ["<C-h>"] = { "<CMD>BufferLineCyclePrev<CR>", "Cycle previous buffer" },
-    ["<C-l>"] = { "<CMD>BufferLineCycleNext<CR>", "Cycle next buffer" },
-    ["<C-w>"] = { "<CMD>Bdelete!<CR>", "Delete buffer" },
-    ["<A-<>"] = { "<CMD>BufferLineMovePrev<CR>", "Move buffer to previous" },
-    ["<A->>"] = { "<CMD>BufferLineMoveNext<CR>", "Move buffer to next" },
-    ["<A-1>"] = { "<CMD>BufferLineGoToBuffer 1<CR>", "Go to 1 buffer" },
-    ["<A-2>"] = { "<CMD>BufferLineGoToBuffer 2<CR>", "Go to 2 buffer" },
-    ["<A-3>"] = { "<CMD>BufferLineGoToBuffer 3<CR>", "Go to 3 buffer" },
-    ["<A-4>"] = { "<CMD>BufferLineGoToBuffer 4<CR>", "Go to 4 buffer" },
-    ["<A-5>"] = { "<CMD>BufferLineGoToBuffer 5<CR>", "Go to 5 buffer" },
-    ["<A-6>"] = { "<CMD>BufferLineGoToBuffer 6<CR>", "Go to 6 buffer" },
-    ["<A-7>"] = { "<CMD>BufferLineGoToBuffer 7<CR>", "Go to 7 buffer" },
-    ["<A-8>"] = { "<CMD>BufferLineGoToBuffer 8<CR>", "Go to 8 buffer" },
-    ["<A-9>"] = { "<CMD>BufferLineGoToBuffer 9<CR>", "Go to 9 buffer" },
-    ["<A-0>"] = { "<CMD>BufferLineGoToBuffer -1<CR>", "Go to first buffer" },
-    ["<A-p>"] = { "<CMD>BufferLineTogglePin<CR>", "Toggle pinned buffer" },
-    ["<Space>bt"] = { "<CMD>BufferLineSortByTabs<CR>", "Sory buffers by tabs" },
-    ["<Space>bd"] = { "<CMD>BufferLineSortByDirectory<CR>", "Sort buffers by directories" },
-    ["<Space>be"] = { "<CMD>BufferLineSortByExtension<CR>", "Sort buffers by extensions" },
-    ["<leader>bh"] = { "<CMD>BufferLineCloseLeft<CR>", "Close left buffer" },
-    ["<leader>bl"] = { "<CMD>BufferLineCloseRight<CR>", "Close right buffer" },
-    ["<leader>bp"] = { "<CMD>BufferLinePick<CR>", "Pick buffer" },
-    ["<leader>bo"] = { "<CMD>BufferLineCloseRight<CR><CMD>BufferLineCloseLeft<CR>", "Close other buffer" },
-    ["<leader>bc"] = { "<CMD>BufferLinePickClose<CR>", "Close picked buffer" },
-  },
-}
-
 M.cokeline = {
   plugin = true,
 
@@ -582,74 +530,6 @@ M.snacks = {
         Snacks.terminal.toggle()
       end,
       "Toggle Terminal",
-    },
-  },
-}
-
-M.flash = {
-  plugin = true,
-  n = {
-    ["S"] = {
-      function()
-        require("flash").treesitter()
-      end,
-      "Flash Treesitter",
-    },
-  },
-  x = {
-    ["S"] = {
-      function()
-        require("flash").treesitter()
-      end,
-      "Flash Treesitter",
-    },
-    ["R"] = {
-      function()
-        require("flash").treesitter_search()
-      end,
-      "Treesitter Search",
-    },
-  },
-  o = {
-    ["S"] = {
-      function()
-        require("flash").treesitter()
-      end,
-      "Flash Treesitter",
-    },
-    ["r"] = {
-      function()
-        require("flash").remote()
-      end,
-      "Remote Flash",
-    },
-    ["R"] = {
-      function()
-        require("flash").treesitter_search()
-      end,
-      "Treesitter Search",
-    },
-  },
-  c = {
-    ["<c-s>"] = {
-      function()
-        require("flash").toggle()
-      end,
-      "Toggle Flash Search",
-    },
-  },
-}
-
-M.inc_rename = {
-  plugin = true,
-
-  n = {
-    ["<leader>rn"] = {
-      function()
-        return ":IncRename " .. vim.fn.expand("<cword>")
-      end,
-      "Incremental Rename",
-      opts = { expr = true },
     },
   },
 }
