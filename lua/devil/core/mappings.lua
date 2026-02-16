@@ -350,7 +350,7 @@ M.gitsigns = {
 
     ["<leader>td"] = {
       function()
-        require("gitsigns").preview_hunk()
+        require("gitsigns").toggle_deleted()
       end,
       "Toggle deleted",
     },
