@@ -79,6 +79,7 @@ return function(utils)
         "rouge8/neotest-rust",
         "lawrence-laz/neotest-zig",
       },
+      keys = utils.get_lazy_keys("neotest"),
       opts = function()
         return require("devil.plugins.configs.neotest")
       end,

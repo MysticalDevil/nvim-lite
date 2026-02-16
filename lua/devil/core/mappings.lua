@@ -285,6 +285,19 @@ M.blankline = {
   plugin = true,
 }
 
+M.neotest = {
+  plugin = true,
+
+  n = {
+    ["<leader>tt"] = {
+      function()
+        require("neotest").summary.toggle()
+      end,
+      "Toggle test summary",
+    },
+  },
+}
+
 M.gitsigns = {
   plugin = true,
 
