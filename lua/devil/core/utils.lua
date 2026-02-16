@@ -290,9 +290,6 @@ end
 ---@param client vim.lsp.Client
 ---@param bufnr number
 function M.on_attach(client, bufnr)
-  client.server_capabilities.documentFormattingProvider = false
-  client.server_capabilities.documentRangeFormattingProvider = false
-
   M.set_inlay_hints(client, bufnr)
 
   M.load_mappings("lspconfig", { buffer = bufnr })
