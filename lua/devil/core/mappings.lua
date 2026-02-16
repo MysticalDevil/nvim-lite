@@ -121,18 +121,8 @@ M.lspconfig = {
       function()
         local telescope_builtin = require("telescope.builtin")
         local cursor_theme = require("telescope.themes").get_cursor({ reuse_win = true })
-
-        if vim.bo.filetype == "cs" then
-          local ok, csharp = pcall(require, "csharpls_extended")
-          if ok then
-            csharp.lsp_definitions()
-          else
-            telescope_builtin.lsp_definitions(cursor_theme)
-          end
-        else
-          -- Synced with nvim: prefer telescope for definition
-          telescope_builtin.lsp_definitions(cursor_theme)
-        end
+        -- Synced with nvim: prefer telescope for definition
+        telescope_builtin.lsp_definitions(cursor_theme)
       end,
       "LSP definition",
     },
