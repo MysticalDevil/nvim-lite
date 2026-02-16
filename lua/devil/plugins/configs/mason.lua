@@ -1,6 +1,4 @@
 local options = {
-  ensure_installed = { "lua_ls" }, -- not an option from mason.nvim
-
   ui = {
     -- Whether to automatically check for new versions when opening the :Mason window.
     check_outdated_packages_on_open = true,
