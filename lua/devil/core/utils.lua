@@ -231,18 +231,14 @@ end
 -- Function to get current activated LSP name
 ---@return string
 function M.get_lsp_info()
-  local buf_ft = vim.api.nvim_get_option_value("filetype", { scope = "local" })
-
-  local clients = vim.lsp.get_clients()
-  if not clients then
+  local clients = vim.lsp.get_clients({ bufnr = 0 })
+  if #clients == 0 then
     return "No Active LSP"
   end
 
   local lsp_names = {}
   for _, client in ipairs(clients) do
-    if client.config["filetypes"] and vim.tbl_contains(client.config["filetypes"], buf_ft) then
-      table.insert(lsp_names, client.name)
-    end
+    table.insert(lsp_names, client.name)
   end
 
   if #lsp_names > 0 then
