@@ -62,7 +62,7 @@ return function(utils)
     {
       "neovim/nvim-lspconfig",
       priority = 1000,
-      event = { "BufReadPost", "BufNewFile" },
+      lazy = false,
       cmd = { "LspInfo", "LspInstall", "LspStart" },
       dependencies = { "saghen/blink.cmp" },
       config = function()
