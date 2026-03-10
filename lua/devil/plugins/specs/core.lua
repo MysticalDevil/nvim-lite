@@ -43,6 +43,27 @@ return function(utils)
       opts = function()
         return require("devil.plugins.configs.treesitter")
       end,
+      config = function(_, opts)
+        local ok_ts, ts = pcall(require, "nvim-treesitter")
+        if ok_ts and type(ts.setup) == "function" then
+          ts.setup(opts)
+        else
+          local ok_configs, configs = pcall(require, "nvim-treesitter.configs")
+          if ok_configs and type(configs.setup) == "function" then
+            configs.setup(opts)
+          else
+            vim.notify("nvim-treesitter setup module not found", vim.log.levels.WARN)
+            return
+          end
+        end
+
+        vim.api.nvim_create_autocmd("FileType", {
+          group = vim.api.nvim_create_augroup("devil_treesitter_start", { clear = true }),
+          callback = function(args)
+            pcall(vim.treesitter.start, args.buf)
+          end,
+        })
+      end,
     },
 
     {
