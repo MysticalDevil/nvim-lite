@@ -67,6 +67,21 @@ return function(utils)
     },
 
     {
+      "MysticalDevil/ts-inject.nvim",
+      event = { "BufReadPost", "BufNewFile" },
+      dependencies = { "nvim-treesitter/nvim-treesitter" },
+      opts = {
+        enable = {
+          rust = true,
+          zig = true,
+          go = true,
+          python = true,
+          bash = true,
+        },
+      },
+    },
+
+    {
       "williamboman/mason.nvim",
       lazy = true,
       event = "LspAttach",
