@@ -26,7 +26,7 @@ return function(utils)
 
     {
       "nvim-treesitter/nvim-treesitter",
-      event = { "BufReadPost", "BufNewFile" },
+      lazy = false,
       dependencies = {
         {
           "nvim-treesitter/nvim-treesitter-textobjects",
@@ -36,31 +36,80 @@ return function(utils)
           end,
         },
         "nvim-treesitter/nvim-treesitter-context",
-        "windwp/nvim-ts-autotag",
+        {
+          "windwp/nvim-ts-autotag",
+          opts = {
+            opts = {
+              enable_rename = true,
+              enable_close = true,
+              enable_close_on_slash = true,
+            },
+          },
+        },
         "RRethy/nvim-treesitter-endwise",
       },
       build = ":TSUpdate",
-      opts = function()
-        return require("devil.plugins.configs.treesitter")
-      end,
+      opts = {
+        install_languages = {
+          "bash",
+          "c",
+          "cpp",
+          "css",
+          "dart",
+          "go",
+          "html",
+          "java",
+          "javascript",
+          "json",
+          "just",
+          "lua",
+          "make",
+          "markdown",
+          "markdown_inline",
+          "python",
+          "ruby",
+          "rust",
+          "sql",
+          "toml",
+          "tsx",
+          "typescript",
+          "yaml",
+          "zig",
+        },
+      },
       config = function(_, opts)
-        local ok_ts, ts = pcall(require, "nvim-treesitter")
-        if ok_ts and type(ts.setup) == "function" then
-          ts.setup(opts)
-        else
-          local ok_configs, configs = pcall(require, "nvim-treesitter.configs")
-          if ok_configs and type(configs.setup) == "function" then
-            configs.setup(opts)
-          else
-            vim.notify("nvim-treesitter setup module not found", vim.log.levels.WARN)
+        local treesitter = require("nvim-treesitter")
+
+        local function set_indentexpr(bufnr)
+          local filetype = vim.bo[bufnr].filetype
+          if filetype == "" then
             return
+          end
+
+          local ok_lang, lang = pcall(vim.treesitter.language.get_lang, filetype)
+          if not ok_lang or not lang then
+            lang = filetype
+          end
+
+          local ok_query, query = pcall(vim.treesitter.query.get, lang, "indents")
+          if ok_query and query then
+            vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
           end
         end
 
+        treesitter.setup()
+
+        if #opts.install_languages > 0 and #vim.api.nvim_list_uis() > 0 then
+          vim.schedule(function()
+            treesitter.install(opts.install_languages)
+          end)
+        end
+
         vim.api.nvim_create_autocmd("FileType", {
-          group = vim.api.nvim_create_augroup("devil_treesitter_start", { clear = true }),
+          group = vim.api.nvim_create_augroup("devil_treesitter", { clear = true }),
           callback = function(args)
             pcall(vim.treesitter.start, args.buf)
+            pcall(set_indentexpr, args.buf)
           end,
         })
       end,
