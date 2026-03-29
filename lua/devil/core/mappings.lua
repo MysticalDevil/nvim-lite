@@ -381,8 +381,13 @@ M.cokeline = {
   n = {
     ["<S-h>"] = { "<Plug>(cokeline-focus-prev)", "Cycle focus previous buffer" },
     ["<S-l>"] = { "<Plug>(cokeline-focus-next)", "Cycle focus next buffer" },
-    -- ["<C-w>"] = { "<CMD>Bdelete!<CR>", "Delete buffer" },
-    ["<C-w>"] = { "<Plug>(cokeline-pick-close)", "Close buffer" },
+    ["<C-w>"] = {
+      function()
+        Snacks.bufdelete()
+      end,
+      "Delete buffer",
+    },
+    ["<leader>bc"] = { "<Plug>(cokeline-pick-close)", "Pick buffer to close" },
     ["<leader>p"] = { "<Plug>(cokeline-switch-prev)", "Cycle switch previous buffer but not focus" },
     ["<leader>n"] = { "<Plug>(cokeline-switch-next)", "Cycle switch next buffer but not focus" },
     ["<A-1>"] = { "<Plug>(cokeline-focus-1)", "Go to 1 buffer" },

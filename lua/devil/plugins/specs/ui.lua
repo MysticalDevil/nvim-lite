@@ -13,7 +13,7 @@ return function(utils)
       lazy = false,
       dependencies = {
         "nvim-lua/plenary.nvim",
-        "echasnovski/mini.icons",
+        "nvim-mini/mini.icons",
         "MunifTanjim/nui.nvim",
       },
       cmd = "Neotree",
@@ -32,7 +32,6 @@ return function(utils)
     {
       "willothy/nvim-cokeline",
       event = "VeryLazy",
-      dependencies = "famiu/bufdelete.nvim",
       keys = utils.get_lazy_keys("cokeline"),
       opts = function()
         return require("devil.plugins.configs.cokeline")

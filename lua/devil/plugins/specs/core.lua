@@ -7,7 +7,7 @@ return function(utils)
 
     -- Replaced nvim-web-devicons with mini.icons (lighter and compatible)
     {
-      "echasnovski/mini.icons",
+      "nvim-mini/mini.icons",
       lazy = true,
       opts = {},
       init = function()
@@ -131,11 +131,11 @@ return function(utils)
     },
 
     {
-      "williamboman/mason.nvim",
+      "mason-org/mason.nvim",
       lazy = true,
       event = "LspAttach",
       dependencies = {
-        "williamboman/mason-lspconfig.nvim",
+        "mason-org/mason-lspconfig.nvim",
         { "jay-babu/mason-nvim-dap.nvim", cmd = { "DapInstall", "DapUninstall" } },
         "zapling/mason-conform.nvim",
         "rshkarin/mason-nvim-lint",
@@ -181,7 +181,7 @@ return function(utils)
       "folke/trouble.nvim",
       event = "LspAttach",
       cmd = "Trouble",
-      dependencies = "echasnovski/mini.icons",
+      dependencies = "nvim-mini/mini.icons",
       opts = { use_diagnostic_signs = true },
       keys = {
         {

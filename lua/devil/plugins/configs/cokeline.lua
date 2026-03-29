@@ -116,7 +116,9 @@ local components = {
     fg = function(buffer)
       return buffer.is_modified and green or nil
     end,
-    delete_buffer_on_left_click = true,
+    on_click = function(_, _, _, _, buffer)
+      Snacks.bufdelete(buffer.number)
+    end,
     truncation = { priority = 1 },
   },
 }
@@ -133,7 +135,7 @@ return {
       return buffer.filename ~= "netrw"
     end,
     new_buffers_position = "last",
-    delete_on_right_click = true,
+    delete_on_right_click = false,
   },
 
   mappings = {

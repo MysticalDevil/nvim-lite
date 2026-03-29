@@ -23,7 +23,7 @@ return function(utils)
       },
     },
 
-    { "b0o/schemastore.nvim", ft = { "json", "yaml" } },
+    { "b0o/SchemaStore.nvim", ft = { "json", "yaml" } },
     { "vuki656/package-info.nvim", event = "BufRead package.json" },
 
     {
