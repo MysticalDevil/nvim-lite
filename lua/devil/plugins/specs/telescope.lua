@@ -6,7 +6,6 @@ return function(utils)
       dependencies = {
         "nvim-treesitter/nvim-treesitter",
         "nvim-lua/plenary.nvim",
-        "LinArcX/telescope-env.nvim",
         "debugloop/telescope-undo.nvim",
         "Marskey/telescope-sg",
         "nvim-telescope/telescope-file-browser.nvim",
@@ -27,7 +26,6 @@ return function(utils)
       dependencies = {
         "kkharji/sqlite.lua",
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-        { "nvim-telescope/telescope-fzy-native.nvim" },
       },
     },
   }

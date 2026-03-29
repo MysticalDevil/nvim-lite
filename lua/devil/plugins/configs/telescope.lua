@@ -1,7 +1,6 @@
 local telescope = require("telescope")
 
 local extensions_list = {
-  "env",
   "file_browser",
   "fzf",
   "project",
@@ -117,7 +116,7 @@ return {
       filename_first = false,
       show_scores = false,
       ignore_patterns = { "*.git/*", "*/tmp/*" },
-      match_algorithm = "fzy",
+      match_algorithm = "fzf",
       disable_devicons = false,
       open_buffer_indicators = { previous = "👀", others = "🙈" },
     },

@@ -75,7 +75,6 @@ return function(utils)
         "nvim-neotest/neotest-jest",
         "nvim-neotest/neotest-plenary",
         "nvim-neotest/neotest-go",
-        "nvim-neotest/neotest-vim-test",
         "rouge8/neotest-rust",
         "lawrence-laz/neotest-zig",
       },
