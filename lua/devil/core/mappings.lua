@@ -1,7 +1,9 @@
 local opts = { noremap = true, silent = true }
 local keymap = vim.keymap.set
 
-local function diagnostic_jump_with_float(count)
+---Jump to the next diagnostic and open a float for the new cursor location.
+---@param count integer
+local function jump_diag(count)
   vim.diagnostic.jump({
     count = count,
     on_jump = function(diagnostic, bufnr)
@@ -194,14 +196,14 @@ M.lspconfig = {
 
     ["[d"] = {
       function()
-        diagnostic_jump_with_float(-1)
+        jump_diag(-1)
       end,
       "Goto prev",
     },
 
     ["]d"] = {
       function()
-        diagnostic_jump_with_float(1)
+        jump_diag(1)
       end,
       "Goto next",
     },
