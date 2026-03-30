@@ -94,7 +94,7 @@ init.lua
 | core | lazy.nvim、mini.icons、treesitter、mason、LSP 基础、snacks、trouble、noice、nvim-surround |
 | coding | blink.cmp、conform.nvim、nvim-lint、neotest、nvim-dap、rustaceanvim、lazydev |
 | telescope | telescope.nvim、smart-open.nvim 及各扩展 |
-| ui | neo-tree、heirline、cokeline、dropbar、outline、gitsigns、which-key、todo-comments、ts-comments |
+| ui | neo-tree、heirline、cokeline、dropbar、gitsigns、which-key、todo-comments、ts-comments |
 
 ## 运行环境要求
 
