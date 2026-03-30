@@ -45,9 +45,55 @@ if has_blink then
   capabilities = blink.get_lsp_capabilities(capabilities)
 end
 
+local ensure_servers = { "gopls", "lua_ls", "rust_analyzer", "tsgo", "zls" }
+
+local install_requirements = {
+  gopls = { "go" },
+  tsgo = { "node", "npm" },
+}
+
+---@param servers string[]
+---@return string[], string[]
+local function filter_installable_servers(servers)
+  local enabled = {}
+  local warnings = {}
+
+  for _, server in ipairs(servers) do
+    local requirements = install_requirements[server]
+    if not requirements then
+      table.insert(enabled, server)
+    else
+      local missing = {}
+      for _, bin in ipairs(requirements) do
+        if vim.fn.executable(bin) ~= 1 then
+          table.insert(missing, bin)
+        end
+      end
+
+      if #missing == 0 then
+        table.insert(enabled, server)
+      else
+        table.insert(warnings, ("%s skipped: missing install dependency %s"):format(server, table.concat(missing, ", ")))
+      end
+    end
+  end
+
+  return enabled, warnings
+end
+
+local ensured_servers, install_warnings = filter_installable_servers(ensure_servers)
+if #install_warnings > 0 then
+  vim.schedule(function()
+    vim.notify_once(
+      "Mason auto-install skipped some LSP servers:\n" .. table.concat(install_warnings, "\n"),
+      vim.log.levels.WARN
+    )
+  end)
+end
+
 require("mason-lspconfig").setup({
   automatic_installation = true,
-  ensure_installed = { "gopls", "lua_ls", "rust_analyzer", "tsgo", "zls" },
+  ensure_installed = ensured_servers,
 })
 
 local servers = {

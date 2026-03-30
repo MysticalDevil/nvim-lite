@@ -132,8 +132,7 @@ return function(utils)
 
     {
       "mason-org/mason.nvim",
-      lazy = true,
-      event = "LspAttach",
+      lazy = false,
       dependencies = {
         "mason-org/mason-lspconfig.nvim",
         { "jay-babu/mason-nvim-dap.nvim", cmd = { "DapInstall", "DapUninstall" } },
