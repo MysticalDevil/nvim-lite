@@ -6,12 +6,12 @@ local keymap = vim.keymap.set
 local function jump_diag(count)
   vim.diagnostic.jump({
     count = count,
-    on_jump = function(diagnostic, bufnr)
+    on_jump = function(diagnostic, _)
       if not diagnostic then
         return
       end
 
-      vim.diagnostic.open_float(bufnr, {
+      vim.diagnostic.open_float({
         border = "single",
         scope = "cursor",
       })
@@ -359,7 +359,7 @@ M.gitsigns = {
 
     ["<leader>ph"] = {
       function()
-        require("gitsigns").preview_hunk()
+        require("gitsigns").preview_hunk_inline()
       end,
       "Preview hunk",
     },
@@ -373,9 +373,9 @@ M.gitsigns = {
 
     ["<leader>td"] = {
       function()
-        require("gitsigns").toggle_deleted()
+        require("gitsigns").preview_hunk_inline()
       end,
-      "Toggle deleted",
+      "Preview hunk inline",
     },
     ["<leader>tl"] = {
       function()
@@ -410,6 +410,12 @@ M.cokeline = {
         Snacks.bufdelete.all()
       end,
       "Delete all buffers",
+    },
+    ["<leader>bo"] = {
+      function()
+        Snacks.bufdelete.other()
+      end,
+      "Delete other buffers",
     },
     ["<leader>bc"] = { "<Plug>(cokeline-pick-close)", "Pick buffer to close" },
     ["<leader>p"] = { "<Plug>(cokeline-switch-prev)", "Cycle switch previous buffer but not focus" },
