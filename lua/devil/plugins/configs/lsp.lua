@@ -1,11 +1,13 @@
 local utils = require("devil.core.utils")
 local lsp_util = require("lspconfig.util")
 
----Return whether the current machine architecture is ARM or AArch64.
+---Return whether the current machine is Linux on ARM64/AArch64.
 ---@return boolean
-local function is_arm()
-  local machine = (vim.uv.os_uname().machine or ""):lower()
-  return machine:match("^arm") ~= nil or machine:match("^aarch64") ~= nil
+local function is_linux_arm64()
+  local uname = vim.uv.os_uname()
+  local sysname = (uname.sysname or ""):lower()
+  local machine = (uname.machine or ""):lower()
+  return sysname == "linux" and (machine:match("^arm64") ~= nil or machine:match("^aarch64") ~= nil)
 end
 
 ---Find an executable in PATH while skipping Mason-managed directories.
@@ -30,10 +32,10 @@ end
 
 -- Mason's clangd is not installable on some ARM platforms, at least Linux aarch64.
 local system_clangd = nil
-if is_arm() then
+if is_linux_arm64() then
   system_clangd = find_system_bin("clangd")
   if not system_clangd then
-    vim.notify_once("ARM platform detected but no non-Mason clangd was found in PATH; skipping clangd setup.", vim.log.levels.WARN)
+    vim.notify_once("Linux ARM64 platform detected but no non-Mason clangd was found in PATH; skipping clangd setup.", vim.log.levels.WARN)
   end
 end
 
@@ -66,7 +68,7 @@ local servers = {
 
   clangd = {
     cmd = system_clangd and { system_clangd } or nil,
-    enabled = not is_arm() or system_clangd ~= nil,
+    enabled = not is_linux_arm64() or system_clangd ~= nil,
     settings = {
       clangd = {
         InlayHints = {
