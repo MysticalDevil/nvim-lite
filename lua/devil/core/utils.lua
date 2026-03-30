@@ -248,8 +248,6 @@ function M.get_lsp_info()
   end
 end
 
-local inlay_hint = vim.lsp.inlay_hint
-
 ---@param client vim.lsp.Client
 ---@param bufnr number
 -- Enable inlay hints for supported LSP
