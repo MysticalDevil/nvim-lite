@@ -1,6 +1,22 @@
 local opts = { noremap = true, silent = true }
 local keymap = vim.keymap.set
 
+local function diagnostic_jump_with_float(count)
+  vim.diagnostic.jump({
+    count = count,
+    on_jump = function(diagnostic, bufnr)
+      if not diagnostic then
+        return
+      end
+
+      vim.diagnostic.open_float(bufnr, {
+        border = "single",
+        scope = "cursor",
+      })
+    end,
+  })
+end
+
 -- Remap space as leader key
 keymap("", "<space>", "<nop>", opts)
 
@@ -178,14 +194,14 @@ M.lspconfig = {
 
     ["[d"] = {
       function()
-        vim.diagnostic.jump({ count = -1, float = { border = "single" } })
+        diagnostic_jump_with_float(-1)
       end,
       "Goto prev",
     },
 
     ["]d"] = {
       function()
-        vim.diagnostic.jump({ count = 1, float = { border = "single" } })
+        diagnostic_jump_with_float(1)
       end,
       "Goto next",
     },

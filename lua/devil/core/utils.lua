@@ -291,8 +291,6 @@ function M.on_attach(client, bufnr)
   M.load_mappings("lspconfig", { buffer = bufnr })
 
   vim.api.nvim_set_option_value("formatexpr", "v:lua.require'conform'.formatexpr()", { buf = bufnr })
-  vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
-  vim.api.nvim_set_option_value("tagfunc", "v:lua.vim.lsp.tagfunc", { buf = bufnr })
 end
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
