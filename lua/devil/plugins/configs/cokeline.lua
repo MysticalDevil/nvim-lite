@@ -197,7 +197,7 @@ return {
       {
         text = "  EXPLORER",
         fg = function()
-          return get_hex("NeoTreeDirectoryName", "fg") or get_hex("Directory", "fg", "#7AA2F7")
+          return get_hex("NeoTreeDirectoryName", "fg") or get_hex("Directory", "fg") or "#7AA2F7"
         end,
         bg = function()
           return get_hex("NeoTreeNormal", "bg") or normal_bg

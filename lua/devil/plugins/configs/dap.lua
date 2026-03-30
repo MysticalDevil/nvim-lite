@@ -27,6 +27,7 @@ dap.configurations.zig = dap.configurations.cpp
 
 dapui.setup({
   icons = { expanded = "", collapsed = "", current_frame = "" },
+  wrap = false,
   mappings = {
     -- Use a table to apply multiple mappings
     expand = { "<CR>", "<2-LeftMouse>" },

@@ -1,4 +1,3 @@
-local heirline = require("heirline")
 local conditions = require("heirline.conditions")
 local utils = require("heirline.utils")
 local G_utils = require("devil.core.utils")
