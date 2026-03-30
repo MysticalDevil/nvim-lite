@@ -148,7 +148,6 @@ return function(utils)
       "neovim/nvim-lspconfig",
       priority = 1000,
       lazy = false,
-      cmd = { "LspInfo", "LspInstall", "LspStart" },
       dependencies = { "saghen/blink.cmp" },
       config = function()
         require("devil.plugins.configs.lsp")
