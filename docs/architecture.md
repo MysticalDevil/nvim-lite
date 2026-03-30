@@ -39,7 +39,7 @@ init.lua
 | spec 文件 | 覆盖范围 |
 |-----------|----------|
 | `specs/core.lua` | lazy.nvim、mini.icons、treesitter、mason、LSP 基础、snacks、trouble、noice、nvim-surround |
-| `specs/coding.lua` | blink.cmp、conform.nvim、nvim-lint、neotest、nvim-dap、rustaceanvim、lazydev |
+| `specs/prog.lua` | blink.cmp、conform.nvim、nvim-lint、neotest、nvim-dap、rustaceanvim、lazydev |
 | `specs/telescope.lua` | telescope.nvim、smart-open.nvim 及各 telescope 扩展 |
 | `specs/ui.lua` | neo-tree、heirline、cokeline、dropbar、outline、gitsigns、which-key、todo-comments、ts-comments |
 

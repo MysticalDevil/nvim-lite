@@ -8,7 +8,7 @@ local utils = require("devil.core.utils")
 
 local plugin_sections = {
   require("devil.plugins.specs.core"),
-  require("devil.plugins.specs.coding"),
+  require("devil.plugins.specs.prog"),
   require("devil.plugins.specs.telescope"),
   require("devil.plugins.specs.ui"),
 }
