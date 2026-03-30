@@ -1,6 +1,36 @@
 local utils = require("devil.core.utils")
 local lsp_util = require("lspconfig.util")
 
+local function is_arm_machine()
+  local machine = (vim.uv.os_uname().machine or ""):lower()
+  return machine:match("^arm") ~= nil or machine:match("^aarch64") ~= nil
+end
+
+local function find_non_mason_executable(name)
+  local path_sep = (vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1) and ";" or ":"
+  local mason_root = vim.fs.normalize(vim.fn.stdpath("data") .. "/mason")
+
+  for _, dir in ipairs(vim.split(vim.env.PATH or "", path_sep, { trimempty = true })) do
+    local normalized_dir = vim.fs.normalize(dir)
+    if not vim.startswith(normalized_dir, mason_root) then
+      local candidate = vim.fs.joinpath(normalized_dir, name)
+      if vim.fn.executable(candidate) == 1 then
+        return candidate
+      end
+    end
+  end
+
+  return nil
+end
+
+local arm_system_clangd = nil
+if is_arm_machine() then
+  arm_system_clangd = find_non_mason_executable("clangd")
+  if not arm_system_clangd then
+    vim.notify_once("ARM platform detected but no non-Mason clangd was found in PATH; skipping clangd setup.", vim.log.levels.WARN)
+  end
+end
+
 local capabilities = utils.capabilities
 local has_blink, blink = pcall(require, "blink.cmp")
 if has_blink then
@@ -29,6 +59,8 @@ local servers = {
   vimls = {},
 
   clangd = {
+    cmd = arm_system_clangd and { arm_system_clangd } or nil,
+    enabled = not is_arm_machine() or arm_system_clangd ~= nil,
     settings = {
       clangd = {
         InlayHints = {
@@ -235,6 +267,13 @@ local servers = {
 }
 
 for name, opts in pairs(servers) do
+  local enabled = opts.enabled
+  opts.enabled = nil
+
+  if enabled == false then
+    goto continue
+  end
+
   -- Merge capabilities (unless specifically overridden like in clangd)
   if not opts.capabilities then
     opts.capabilities = capabilities
@@ -255,4 +294,6 @@ for name, opts in pairs(servers) do
   -- Explicitly configure and enable
   vim.lsp.config(name, opts)
   vim.lsp.enable(name)
+
+  ::continue::
 end
