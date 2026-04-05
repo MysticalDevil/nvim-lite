@@ -4,7 +4,7 @@ return function(utils)
       "saghen/blink.cmp",
       event = "VeryLazy",
       dependencies = "rafamadriz/friendly-snippets",
-      version = "*",
+      version = "1.*",
       opts = function()
         return require("devil.plugins.configs.cmp")
       end,
@@ -34,6 +34,9 @@ return function(utils)
     {
       "saecki/crates.nvim",
       event = "BufRead Cargo.toml",
+      config = function()
+        require("crates").setup({})
+      end,
     },
 
     {

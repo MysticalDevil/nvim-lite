@@ -9,7 +9,6 @@ return function(utils)
 
     {
       "nvim-neo-tree/neo-tree.nvim",
-      branch = "v3.x",
       lazy = false,
       dependencies = {
         "nvim-lua/plenary.nvim",
