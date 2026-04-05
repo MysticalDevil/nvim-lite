@@ -20,7 +20,6 @@ return function(utils)
 
     {
       "kylechui/nvim-surround",
-      version = "*",
       event = "VeryLazy",
     },
 
@@ -28,13 +27,6 @@ return function(utils)
       "nvim-treesitter/nvim-treesitter",
       lazy = false,
       dependencies = {
-        {
-          "nvim-treesitter/nvim-treesitter-textobjects",
-          branch = "main",
-          init = function()
-            vim.g.no_plugin_maps = true
-          end,
-        },
         "nvim-treesitter/nvim-treesitter-context",
         {
           "windwp/nvim-ts-autotag",
