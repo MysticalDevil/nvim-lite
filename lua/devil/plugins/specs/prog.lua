@@ -30,11 +30,9 @@ return function(utils)
       "mrcjkb/rustaceanvim",
       ft = "rust",
       lazy = false,
-      version = "^7",
     },
     {
       "saecki/crates.nvim",
-      tag = "stable",
       event = "BufRead Cargo.toml",
     },
 
