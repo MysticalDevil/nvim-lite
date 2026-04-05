@@ -5,3 +5,5 @@ lazy-lock.json
 .luarc.json
 
 .nvimlog
+nvim.log
+.codex
