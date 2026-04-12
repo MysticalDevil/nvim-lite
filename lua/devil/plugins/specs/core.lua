@@ -26,20 +26,6 @@ return function(utils)
     {
       "nvim-treesitter/nvim-treesitter",
       lazy = false,
-      dependencies = {
-        "nvim-treesitter/nvim-treesitter-context",
-        {
-          "windwp/nvim-ts-autotag",
-          opts = {
-            opts = {
-              enable_rename = true,
-              enable_close = true,
-              enable_close_on_slash = true,
-            },
-          },
-        },
-        "RRethy/nvim-treesitter-endwise",
-      },
       build = ":TSUpdate",
       opts = {
         install_languages = {
@@ -108,9 +94,25 @@ return function(utils)
     },
 
     {
+      "nvim-treesitter/nvim-treesitter-context",
+      lazy = false,
+    },
+
+    {
+      "windwp/nvim-ts-autotag",
+      lazy = false,
+      opts = {
+        opts = {
+          enable_rename = true,
+          enable_close = true,
+          enable_close_on_slash = true,
+        },
+      },
+    },
+
+    {
       "MysticalDevil/ts-inject.nvim",
       event = { "BufReadPost", "BufNewFile" },
-      dependencies = { "nvim-treesitter/nvim-treesitter" },
       opts = {
         enable = {
           rust = true,
