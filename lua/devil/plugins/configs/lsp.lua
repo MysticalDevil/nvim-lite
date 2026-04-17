@@ -115,7 +115,7 @@ local servers = {
     ),
     settings = {
       haskell = {
-        formattingProvider = "fourmolu",
+        formattingProvider = "ormolu",
         cabalFormattingProvider = "cabalfmt",
         plugin = {
           stan = { globalOn = false },
@@ -127,7 +127,7 @@ local servers = {
   lemminx = {},
   marksman = {},
   neocmake = {},
-  nixd = {},
+  ["nil"] = {},
   ruff = {},
   tailwindcss = {},
   taplo = {},
