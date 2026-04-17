@@ -35,7 +35,10 @@ local system_clangd = nil
 if is_linux_arm64() then
   system_clangd = find_system_bin("clangd")
   if not system_clangd then
-    vim.notify_once("Linux ARM64 platform detected but no non-Mason clangd was found in PATH; skipping clangd setup.", vim.log.levels.WARN)
+    vim.notify_once(
+      "Linux ARM64 platform detected but no non-Mason clangd was found in PATH; skipping clangd setup.",
+      vim.log.levels.WARN
+    )
   end
 end
 
@@ -73,7 +76,10 @@ local function filter_installable_servers(servers)
       if #missing == 0 then
         table.insert(enabled, server)
       else
-        table.insert(warnings, ("%s skipped: missing install dependency %s"):format(server, table.concat(missing, ", ")))
+        table.insert(
+          warnings,
+          ("%s skipped: missing install dependency %s"):format(server, table.concat(missing, ", "))
+        )
       end
     end
   end
@@ -103,10 +109,23 @@ local servers = {
   docker_language_server = {},
   emmet_language_server = {},
   html = {},
+
+  hls = {
+    settings = {
+      haskell = {
+        formattingProvider = "ormolu",
+        cabalFormattingProvider = "cabalfmt",
+        plugin = {
+          stan = { globalOn = false },
+        },
+      },
+    },
+  },
+
   lemminx = {},
   marksman = {},
   neocmake = {},
-  nixd = {},
+  nil_ls = {},
   ruff = {},
   tailwindcss = {},
   taplo = {},
