@@ -103,6 +103,27 @@ local servers = {
   docker_language_server = {},
   emmet_language_server = {},
   html = {},
+
+  hls = {
+    filetypes = { "haskell", "lhaskell", "cabal" },
+    root_dir = lsp_util.root_pattern(
+      "hie.yaml",
+      "stack.yaml",
+      "cabal.project",
+      "*.cabal",
+      "package.yaml"
+    ),
+    settings = {
+      haskell = {
+        formattingProvider = "fourmolu",
+        cabalFormattingProvider = "cabalfmt",
+        plugin = {
+          stan = { globalOn = false },
+        },
+      },
+    },
+  },
+
   lemminx = {},
   marksman = {},
   neocmake = {},
