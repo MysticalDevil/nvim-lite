@@ -8,7 +8,7 @@
 2. 将仓库内容放到 `~/.config/nvim` 或软链接过去
 3. 运行 `nvim`，`lazy.nvim` 会自动 bootstrap
 4. 首次启动后运行 `:TSUpdate` 预编译 parsers
-5. 运行 `:MasonInstallAll` 安装 LSP/formatter/debugger 工具链
+5. 运行 `:Mason` 手动安装 LSP / formatter / debugger 工具链
 
 ## 日常更新
 
@@ -41,7 +41,8 @@
 ### Lua 静态检查
 
 ```bash
-selene lua/devil
+stylua --check .
+selene .
 ```
 
 ### 文档格式检查
@@ -60,6 +61,7 @@ rumdl check README.md README.en.md docs/*.md
 | `:Lazy sync` | 同步插件版本 |
 | `:Lazy` | 打开 lazy.nvim 管理界面 |
 | `:Mason` | 管理 LSP / formatter / debugger 工具链 |
+| `:MasonUpdate` | 更新 Mason 已安装的工具 |
 | `:TSUpdate` | 更新 treesitter parsers |
 | `:Neotree` | 切换文件树 |
 
@@ -93,6 +95,16 @@ rumdl check README.md README.en.md docs/*.md
 
 1. 运行 `:Mason` 安装对应语言服务器
 2. 或运行 `:MasonInstall <server>` 安装特定服务器
+
+### checkhealth 中大量 "not executable" 警告
+
+症状：`:checkhealth vim.lsp` 出现大量 `WARNING 'xxx' is not executable`。
+
+处理：
+
+这是正常现象。配置已启用"按需启用"策略——未安装的可执行文件对应的服务器会自动跳过，不会实际启动。这些警告只是提示哪些服务器尚未安装。
+
+如需消除，运行 `:Mason` 安装对应工具，或从 `configs/lsp.lua` 的 `servers` 表中移除不需要的服务器。
 
 ### Lazy sync 后插件不工作
 
