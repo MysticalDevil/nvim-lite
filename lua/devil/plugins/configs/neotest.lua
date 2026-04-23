@@ -5,7 +5,7 @@ return {
     }),
     require("neotest-plenary"),
     require("neotest-go"),
-    require("neotest-rust"),
+    require("rustaceanvim.neotest"),
     require("neotest-zig"),
     require("neotest-jest"),
   },

@@ -30,6 +30,7 @@ return function(utils)
       "mrcjkb/rustaceanvim",
       ft = "rust",
       lazy = false,
+      version = "^9",
     },
     {
       "saecki/crates.nvim",
@@ -76,7 +77,6 @@ return function(utils)
         "nvim-neotest/neotest-jest",
         "nvim-neotest/neotest-plenary",
         "nvim-neotest/neotest-go",
-        "rouge8/neotest-rust",
         "lawrence-laz/neotest-zig",
       },
       keys = utils.get_lazy_keys("neotest"),
