@@ -20,7 +20,6 @@ local opts = {
     },
   },
   update_in_insert = false,
-  show_header = false,
   severity_sort = true,
   float = {
     source = "if_many",

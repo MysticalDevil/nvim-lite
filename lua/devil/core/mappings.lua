@@ -47,8 +47,8 @@ M.general = {
 
   n = {
     ["<Esc>"] = { "<cmd> noh <CR>", "Clear highlights" },
-    ["<C-d>"] = { "10j", "Five lines down" },
-    ["<C-u>"] = { "10k", "Five lines up" },
+    ["<C-d>"] = { "10j", "Ten lines down" },
+    ["<C-u>"] = { "10k", "Ten lines up" },
 
     -- switch between windows
     ["<C-h>"] = { "<C-w>h", "Window left" },
@@ -107,8 +107,8 @@ M.general = {
   v = {
     ["<C-j>"] = { "5j", "Five lines down" },
     ["<C-k>"] = { "5k", "Five lines up" },
-    ["<C-d>"] = { "10j", "Five lines down" },
-    ["<C-u>"] = { "10k", "Five lines up" },
+    ["<C-d>"] = { "10j", "Ten lines down" },
+    ["<C-u>"] = { "10k", "Ten lines up" },
 
     ["<Up>"] = { 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', "Move up", opts = { expr = true } },
     ["<Down>"] = { 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', "Move down", opts = { expr = true } },
@@ -299,10 +299,6 @@ M.telescope = {
   },
 }
 
-M.blankline = {
-  plugin = true,
-}
-
 M.neotest = {
   plugin = true,
 
@@ -490,21 +486,6 @@ M.dap = {
         require("dapui").eval()
       end,
       "Popups dapUI eval",
-    },
-  },
-}
-
-M.trouble = {
-  plugin = true,
-
-  n = {
-    ["<leader>xx"] = {
-      "<CMD>Trouble diagnostics toggle<CR>",
-      "Diagnostics (Trouble)",
-    },
-    ["<leader>xX"] = {
-      "<CMD>Trouble diagnostics toggle filter.buf=0<CR>",
-      "",
     },
   },
 }
