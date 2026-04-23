@@ -8,7 +8,6 @@ return function(utils)
         "nvim-lua/plenary.nvim",
         "debugloop/telescope-undo.nvim",
         "Marskey/telescope-sg",
-        "nvim-telescope/telescope-file-browser.nvim",
         "nvim-telescope/telescope-project.nvim",
         "nvim-telescope/telescope-ui-select.nvim",
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },

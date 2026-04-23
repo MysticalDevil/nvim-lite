@@ -1,7 +1,6 @@
 local telescope = require("telescope")
 
 local extensions_list = {
-  "file_browser",
   "fzf",
   "project",
   "ui-select",
@@ -89,18 +88,6 @@ return {
       }, -- must have --json=stream
       grep_open_files = false, -- search in opened files
       lang = nil, -- string value, specify language for ast-grep `nil` for default
-    },
-    file_browser = {
-      -- disables netrw and use telescope-file-browser in its place
-      hijack_netrw = false,
-      mappings = {
-        ["i"] = {
-          -- your custom insert mode mappings
-        },
-        ["n"] = {
-          -- your custom normal mode mappings
-        },
-      },
     },
     fzf = {
       fuzzy = true, -- false will only do exact matching
