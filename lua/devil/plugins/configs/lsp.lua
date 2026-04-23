@@ -48,7 +48,7 @@ if has_blink then
   capabilities = blink.get_lsp_capabilities(capabilities)
 end
 
-local ensure_servers = { "gopls", "lua_ls", "rust_analyzer", "tsgo", "zls" }
+local ensure_servers = { "gopls", "lua_ls", "tsgo", "zls" }
 
 local install_requirements = {
   gopls = { "go" },
@@ -261,7 +261,10 @@ local servers = {
     },
   },
 
+  -- NOTE: rust_analyzer is managed by rustaceanvim, not lspconfig.
+  -- Do not enable it here to avoid duplicate LSP clients.
   rust_analyzer = {
+    enabled = false,
     settings = {
       rust_analyzer = {
         checkOnSave = {
@@ -343,30 +346,44 @@ for name, opts in pairs(servers) do
   local enabled = opts.enabled
   opts.enabled = nil
 
+  local should_enable = true
+
   if enabled == false then
-    goto continue
-  end
-
-  -- Merge capabilities (unless specifically overridden like in clangd)
-  if not opts.capabilities then
-    opts.capabilities = capabilities
-  end
-
-  -- Wrap on_attach to ensure core utils.on_attach is always called
-  local original_on_attach = opts.on_attach
-  opts.on_attach = function(client, bufnr)
-    -- Call the common setup (keymaps, inlay hints helper, etc.)
-    utils.on_attach(client, bufnr)
-
-    -- Call server-specific on_attach if it exists
-    if original_on_attach then
-      original_on_attach(client, bufnr)
+    should_enable = false
+  else
+    -- Skip servers whose executable is not available
+    local cmd = opts.cmd
+    if not cmd then
+      local default_cfg = vim.lsp.config[name]
+      if default_cfg then
+        cmd = default_cfg.cmd
+      end
+    end
+    if cmd and vim.fn.executable(cmd[1]) ~= 1 then
+      should_enable = false
     end
   end
 
-  -- Explicitly configure and enable
-  vim.lsp.config(name, opts)
-  vim.lsp.enable(name)
+  if should_enable then
+    -- Merge capabilities (unless specifically overridden like in clangd)
+    if not opts.capabilities then
+      opts.capabilities = capabilities
+    end
 
-  ::continue::
+    -- Wrap on_attach to ensure core utils.on_attach is always called
+    local original_on_attach = opts.on_attach
+    opts.on_attach = function(client, bufnr)
+      -- Call the common setup (keymaps, inlay hints helper, etc.)
+      utils.on_attach(client, bufnr)
+
+      -- Call server-specific on_attach if it exists
+      if original_on_attach then
+        original_on_attach(client, bufnr)
+      end
+    end
+
+    -- Explicitly configure and enable
+    vim.lsp.config(name, opts)
+    vim.lsp.enable(name)
+  end
 end
