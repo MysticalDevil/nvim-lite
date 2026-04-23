@@ -68,9 +68,9 @@ M.general = {
 
     ["<leader>bf"] = {
       function()
-        vim.lsp.buf.format({ async = true })
+        require("conform").format({ async = true, lsp_fallback = true })
       end,
-      "LSP formatting",
+      "Format buffer",
     },
 
     -- new buffer
@@ -528,12 +528,6 @@ M.snacks = {
         Snacks.notifier.show_history()
       end,
       "Notification History",
-    },
-    ["<leader>gb"] = {
-      function()
-        Snacks.git.blame_line()
-      end,
-      "Git Blame Line",
     },
     ["<leader>N"] = {
       function()
