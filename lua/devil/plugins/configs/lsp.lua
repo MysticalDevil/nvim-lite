@@ -359,7 +359,7 @@ for name, opts in pairs(servers) do
         cmd = default_cfg.cmd
       end
     end
-    if cmd and vim.fn.executable(cmd[1]) ~= 1 then
+    if cmd and type(cmd) == "table" and vim.fn.executable(cmd[1]) ~= 1 then
       should_enable = false
     end
   end
