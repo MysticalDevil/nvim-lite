@@ -133,7 +133,7 @@ return function(utils)
         "zapling/mason-conform.nvim",
         "rshkarin/mason-nvim-lint",
       },
-      cmd = { "Mason", "MasonInstall", "MasonInstallAll", "MasonUpdate" },
+      cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUpdate" },
       opts = require("devil.plugins.configs.mason"),
     },
 
