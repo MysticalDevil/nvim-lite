@@ -130,7 +130,6 @@ return function(utils)
       dependencies = {
         "mason-org/mason-lspconfig.nvim",
         { "jay-babu/mason-nvim-dap.nvim", cmd = { "DapInstall", "DapUninstall" } },
-        "zapling/mason-conform.nvim",
         "rshkarin/mason-nvim-lint",
       },
       cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUpdate" },
