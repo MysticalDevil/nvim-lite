@@ -12,6 +12,45 @@ return function(utils)
     },
 
     {
+      "milanglacier/minuet-ai.nvim",
+      event = "InsertEnter",
+      opts = {
+        provider = "openai_fim_compatible",
+        request_timeout = 3,
+        blink = {
+          enable_auto_complete = false,
+        },
+        cmp = {
+          enable_auto_complete = false,
+        },
+        virtualtext = {
+          auto_trigger_ft = {},
+          keymap = {
+            accept = "<A-y>",
+            accept_line = "<A-l>",
+            accept_n_lines = "<A-z>",
+            prev = "<A-[>",
+            next = "<A-]>",
+            dismiss = "<A-e>",
+          },
+          show_on_completion_menu = false,
+        },
+        provider_options = {
+          openai_fim_compatible = {
+            api_key = "DEEPSEEK_API_KEY",
+            name = "Deepseek",
+            end_point = "https://api.deepseek.com/beta/completions",
+            model = "deepseek-v4-flash",
+            optional = {
+              max_tokens = 256,
+              top_p = 0.9,
+            },
+          },
+        },
+      },
+    },
+
+    {
       "folke/lazydev.nvim",
       ft = "lua",
       opts = {
