@@ -42,7 +42,7 @@
 
 ```bash
 stylua --check .
-selene .
+selene lua init.lua
 ```
 
 ### 文档格式检查
@@ -102,7 +102,10 @@ rumdl check README.md README.en.md docs/*.md
 
 处理：
 
-这是正常现象。配置已启用"按需启用"策略——未安装的可执行文件对应的服务器会自动跳过，不会实际启动。这些警告只是提示哪些服务器尚未安装。
+这是正常现象。配置已启用"按需启用"策略——未安装的可执行文件
+对应的服务器会自动跳过，不会实际启动。这些警告只是提示哪些服务器
+尚未安装。`mason-lspconfig` 不自动 enable 服务器，最终启用由
+`configs/lsp.lua` 显式控制。
 
 如需消除，运行 `:Mason` 安装对应工具，或从 `configs/lsp.lua` 的 `servers` 表中移除不需要的服务器。
 

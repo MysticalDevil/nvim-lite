@@ -36,14 +36,14 @@ git clone https://github.com/yourname/nvim-lite.git ~/.config/nvim
 nvim  # bootstraps lazy.nvim on first run
 ```
 
-Requirements: Neovim `0.11+`, `git`, `curl`, `tar`, `make`, a C compiler,
+Requirements: Neovim `0.12+`, `git`, `curl`, `tar`, `make`, a C compiler,
 `tree-sitter` CLI, `ripgrep`.
 
 ## Layout
 
 ```text
 init.lua                      # bootstrap entry
-lua/devil/core/               # options, autocmds, commands, mappings
+lua/devil/core/               # options, autocmds, commands, keymaps
 lua/devil/plugins/specs/     # plugin specs by domain
 lua/devil/plugins/configs/   # plugin-specific setup
 lazy-lock.json
@@ -57,7 +57,10 @@ and responsibilities.
 - **core / specs / configs** three-layer split is stable
 - Treesitter parsers listed in `specs/core.lua`; no `configs.setup`
   compatibility layer
-- Plugin groups: `core`, `coding`, `telescope`, `ui` (see
+- Keymaps are local to their owner: global editor mappings live in
+  `core/keymaps.lua`, plugin trigger keys live in plugin specs, and
+  buffer-local keys are attached by LSP/gitsigns callbacks
+- Plugin groups: `core`, `prog`, `telescope`, `ui` (see
   [docs/architecture.md](docs/architecture.md))
 - No legacy compatibility paths; upstream changes are migrated directly
 
@@ -74,7 +77,7 @@ and responsibilities.
 ## Local Checks
 
 ```bash
-selene lua/devil
+selene lua init.lua
 rumdl fmt README.md README.en.md docs/*.md
 rumdl check README.md README.en.md docs/*.md
 ```
