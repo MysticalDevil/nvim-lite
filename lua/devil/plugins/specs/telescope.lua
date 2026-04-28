@@ -4,7 +4,6 @@ return function()
       "nvim-telescope/telescope.nvim",
       lazy = false,
       dependencies = {
-        "nvim-treesitter/nvim-treesitter",
         "nvim-lua/plenary.nvim",
         "debugloop/telescope-undo.nvim",
         "Marskey/telescope-sg",

@@ -55,8 +55,8 @@ and responsibilities.
 ## Key Conventions
 
 - **core / specs / configs** three-layer split is stable
-- Treesitter parsers listed in `specs/core.lua`; no `configs.setup`
-  compatibility layer
+- Treesitter parsers are managed by `tree-sitter-manager.nvim`; only
+  `ensure_installed` is configured explicitly
 - Keymaps are local to their owner: global editor mappings live in
   `core/keymaps.lua`, plugin trigger keys live in plugin specs, and
   buffer-local keys are attached by LSP/gitsigns callbacks
@@ -72,7 +72,7 @@ and responsibilities.
 | `:ConfigHealth` | config-level health check |
 | `:Lazy sync` | sync plugin versions |
 | `:Mason` | manage LSP / formatter / debugger toolchains |
-| `:TSUpdate` | update treesitter parsers |
+| `:TSManager` | manage treesitter parsers |
 
 ## Local Checks
 

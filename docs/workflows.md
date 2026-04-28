@@ -7,7 +7,7 @@
 1. 确保满足[运行环境要求](../README.md#运行环境要求)
 2. 将仓库内容放到 `~/.config/nvim` 或软链接过去
 3. 运行 `nvim`，`lazy.nvim` 会自动 bootstrap
-4. 首次启动后运行 `:TSUpdate` 预编译 parsers
+4. 首次启动会通过 `tree-sitter-manager.nvim` 安装默认 parser 列表
 5. 运行 `:Mason` 手动安装 LSP / formatter / debugger 工具链
 
 ## 日常更新
@@ -23,10 +23,11 @@
 ### Treesitter Parser 更新
 
 ```vim
-:TSUpdate
+:TSManager
 ```
 
-在 `:Lazy sync` 后执行，必要时重新编译已安装的 parsers。
+在 `:Lazy sync` 后打开 parser 管理界面。把光标移到对应 parser 上，
+按 `u` 更新，按 `i` 安装，按 `x` 移除。
 
 ### Mason 工具链更新
 
@@ -62,7 +63,7 @@ rumdl check README.md README.en.md docs/*.md
 | `:Lazy` | 打开 lazy.nvim 管理界面 |
 | `:Mason` | 管理 LSP / formatter / debugger 工具链 |
 | `:MasonUpdate` | 更新 Mason 已安装的工具 |
-| `:TSUpdate` | 更新 treesitter parsers |
+| `:TSManager` | 管理 treesitter parsers |
 | `:Neotree` | 切换文件树 |
 
 ## 常见故障
@@ -73,8 +74,8 @@ rumdl check README.md README.en.md docs/*.md
 
 处理：
 
-1. 确认 parser 在 `specs/core.lua` 的 `install_languages` 列表中
-2. 运行 `:TSUpdate <lang>` 安装对应 parser
+1. 确认 parser 在 `specs/core.lua` 的 `ensure_installed` 列表中
+2. 运行 `:TSManager` 安装或更新对应 parser
 3. 检查 `tree-sitter` CLI 是否可用：`tree-sitter --version`
 
 ### 缺外部命令

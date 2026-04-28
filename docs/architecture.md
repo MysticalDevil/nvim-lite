@@ -71,16 +71,19 @@ init.lua
 
 **当前实现细节**，后续可能变化：
 
-- `nvim-treesitter` 本体不 lazy-load（但仅作为 parser 包管理器使用）
-- parser 列表声明在 `specs/core.lua` 的 `opts.install_languages`
-- 启动时（存在 UI 时）调用 `treesitter.install(...)` 补齐缺失 parser
-- 高亮由 `vim.treesitter.start()` 启用（Neovim 0.12+ 内置 API）
-- `indentexpr` 仅在语言存在 `indents` query 时设置
-- `nvim-ts-autotag` 使用自己的 `setup` 方式，不再挂载到 `nvim-treesitter.configs`
+- `romus204/tree-sitter-manager.nvim` 负责 parser 安装、删除和管理 UI
+- `specs/core.lua` 只显式设置 `ensure_installed`，不重写插件默认选项
+- 默认安装 c、c_sharp、cpp、css、dockerfile、go、html、javascript、json、just、
+  lua、make、markdown、rust、sql、toml、tsx、typescript、zig parsers
+- `ensure_installed` 只在存在 UI 时传给插件，避免 headless 检查触发 parser 安装
+- 高亮由 Neovim core `vim.treesitter.start()` 启用（Neovim 0.12+ 内置 API）
+- `nvim-ts-autotag` 使用自己的 `setup` 方式，不再挂载到旧
+  `nvim-treesitter.configs`
 - `ts-inject.nvim` 仅依赖 Neovim 内置 `vim.treesitter` API，不依赖
   `nvim-treesitter` 插件
 
-**不保留旧兼容层**：上游重构接口后，直接迁移，不维护 `configs.setup` 兼容路径。
+**不保留旧兼容层**：上游重构接口后，直接迁移，不维护旧
+`nvim-treesitter.configs.setup` 兼容路径。
 
 ## LSP / DAP / Formatting / Lint 组织
 
@@ -101,7 +104,7 @@ init.lua
 | core/specs/configs 三层职责划分 | treesitter 具体 API 调用方式 |
 | specs 按领域分文件 | mason/toolchain 具体配置 |
 | keymaps 就近声明：全局归 core，插件归 specs，buffer-local 归 attach 回调 | 各插件具体 keybinding |
-| 不保留旧兼容层原则 | nvim-treesitter 配置方式 |
+| 不保留旧兼容层原则 | tree-sitter-manager 配置方式 |
 | 职责去重、不重复造轮子 | 具体保留哪家插件 |
 
 维护者应优先保证稳定约定不被破坏，实现细节可按上游变化调整。

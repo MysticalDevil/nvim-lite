@@ -24,70 +24,42 @@ return function()
     },
 
     {
-      "nvim-treesitter/nvim-treesitter",
+      "romus204/tree-sitter-manager.nvim",
       lazy = false,
-      build = ":TSUpdate",
-      opts = {
-        install_languages = {
-          "bash",
+      opts = function()
+        local ensure_installed = {
           "c",
+          "c_sharp",
           "cpp",
           "css",
-          "dart",
+          "dockerfile",
           "go",
           "html",
-          "java",
           "javascript",
           "json",
           "just",
           "lua",
           "make",
           "markdown",
-          "markdown_inline",
-          "python",
-          "ruby",
           "rust",
           "sql",
           "toml",
           "tsx",
           "typescript",
-          "yaml",
           "zig",
-        },
-      },
+        }
+
+        return {
+          ensure_installed = #vim.api.nvim_list_uis() > 0 and ensure_installed or {},
+        }
+      end,
       config = function(_, opts)
-        local treesitter = require("nvim-treesitter")
-
-        local function set_indentexpr(bufnr)
-          local filetype = vim.bo[bufnr].filetype
-          if filetype == "" then
-            return
-          end
-
-          local ok_lang, lang = pcall(vim.treesitter.language.get_lang, filetype)
-          if not ok_lang or not lang then
-            lang = filetype
-          end
-
-          local ok_query, query = pcall(vim.treesitter.query.get, lang, "indents")
-          if ok_query and query then
-            vim.bo[bufnr].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-          end
-        end
-
-        treesitter.setup()
-
-        if #opts.install_languages > 0 and #vim.api.nvim_list_uis() > 0 then
-          vim.schedule(function()
-            treesitter.install(opts.install_languages)
-          end)
-        end
+        require("tree-sitter-manager").setup(opts)
 
         vim.api.nvim_create_autocmd("FileType", {
           group = vim.api.nvim_create_augroup("devil_treesitter", { clear = true }),
           callback = function(args)
             pcall(vim.treesitter.start, args.buf)
-            pcall(set_indentexpr, args.buf)
           end,
         })
       end,

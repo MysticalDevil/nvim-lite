@@ -81,11 +81,13 @@ init.lua
 
 ### Treesitter 策略
 
-- `nvim-treesitter` 本体不 lazy-load
-- parser 列表在 `specs/core.lua` 的 `opts.install_languages`
-- 高亮由 `vim.treesitter.start()` 启用，缩进只在语言存在 `indents` query 时设置
+- parser 管理由 `romus204/tree-sitter-manager.nvim` 接管
+- `specs/core.lua` 只显式设置 `ensure_installed`，不重写插件默认选项
+- 默认安装 c、c_sharp、cpp、css、dockerfile、go、html、javascript、json、just、
+  lua、make、markdown、rust、sql、toml、tsx、typescript、zig parsers
+- 高亮由 Neovim core `vim.treesitter.start()` 启用
 - `nvim-ts-autotag` 使用自己的 setup 方式
-- **不保留旧 `configs.setup` 兼容层**
+- **不保留旧 `nvim-treesitter.configs.setup` 兼容层**
 
 ### 插件分组
 
@@ -137,7 +139,7 @@ ln -s ~/projects/nvim-lite ~/.config/nvim
 | `:ConfigHealth` | 配置级健康检查 |
 | `:Lazy sync` | 同步插件版本 |
 | `:Mason` | 管理 LSP / formatter / debugger 工具链 |
-| `:TSUpdate` | 更新 treesitter parsers |
+| `:TSManager` | 管理 treesitter parsers |
 | `:Neotree` | 切换文件树 |
 
 ## 本地检查
