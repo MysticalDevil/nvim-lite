@@ -39,7 +39,7 @@ return {
   },
   -- Use pre-save formatting to keep one predictable formatting trigger.
   format_on_save = {
-    lsp_fallback = true,
+    lsp_format = "fallback",
   },
   -- Set the log level. Use `:ConformInfo` to see the location of the log file.
   log_level = vim.log.levels.ERROR,

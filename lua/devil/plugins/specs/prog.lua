@@ -87,7 +87,7 @@ return function()
         {
           "<leader>f",
           function()
-            require("conform").format({ async = true, lsp_fallback = true })
+            require("conform").format({ async = true, lsp_format = "fallback" })
           end,
           mode = "",
           desc = "Format buffer",

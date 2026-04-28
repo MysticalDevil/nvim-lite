@@ -37,7 +37,7 @@ keymap("n", "<Up>", 'v:count || mode(1)[0:1] == "no" ? "k" : "gk"', { expr = tru
 keymap("n", "<Down>", 'v:count || mode(1)[0:1] == "no" ? "j" : "gj"', { expr = true, desc = "Move down" })
 
 keymap("n", "<leader>bf", function()
-  require("conform").format({ async = true, lsp_fallback = true })
+  require("conform").format({ async = true, lsp_format = "fallback" })
 end, { desc = "Format buffer" })
 
 keymap("n", "<leader>bn", "<cmd> enew <CR>", { desc = "New buffer" })

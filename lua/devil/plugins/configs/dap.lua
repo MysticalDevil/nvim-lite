@@ -45,7 +45,7 @@ dapui.setup({
       repl = "r",
     },
   },
-  expand_lines = vim.fn.has("nvim-0.7") == 1,
+  expand_lines = true,
   force_buffers = true,
   layouts = {
     {
@@ -76,7 +76,7 @@ dapui.setup({
     },
   },
   controls = {
-    enabled = vim.fn.exists("+winbar") == 1,
+    enabled = true,
     element = "repl",
     icons = {
       pause = "",

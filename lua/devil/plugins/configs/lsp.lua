@@ -98,7 +98,7 @@ if #install_warnings > 0 then
 end
 
 require("mason-lspconfig").setup({
-  automatic_installation = true,
+  automatic_enable = false,
   ensure_installed = ensured_servers,
 })
 
