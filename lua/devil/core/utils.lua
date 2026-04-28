@@ -8,7 +8,7 @@ local merge_tb = vim.tbl_deep_extend
 function M.bootstrap(path, repository, branch)
   if not vim.uv.fs_stat(path) then
     vim.notify(("Bootstarting %s is being installed, please wait..."):format(repository), vim.log.levels.INFO)
-    vim.fn.system({
+    local output = vim.fn.system({
       "git",
       "clone",
       "--filter=blob:none",
@@ -16,6 +16,9 @@ function M.bootstrap(path, repository, branch)
       ("--branch=%s"):format(branch),
       path,
     })
+    if vim.v.shell_error ~= 0 or not vim.uv.fs_stat(path) then
+      error(("Failed to bootstrap %s: %s"):format(repository, output), 0)
+    end
   end
   vim.opt.rtp:prepend(path)
 end
@@ -66,15 +69,13 @@ function M.load_mappings(section, mapping_opt)
         return
       end
 
-      section_values.plugin = nil
-
       for mode, mode_values in pairs(section_values) do
         local default_opts = merge_tb("force", { mode = mode }, mapping_opt or {})
         for keybind, mapping_info in pairs(mode_values) do
           -- merge default + user opts
           local opts = merge_tb("force", default_opts, mapping_info.opts or {})
 
-          mapping_info.opts, opts.mode = nil, nil
+          opts.mode = nil
           opts.desc = mapping_info[2]
 
           vim.keymap.set(mode, keybind, mapping_info[1], opts)
@@ -90,7 +91,6 @@ function M.load_mappings(section, mapping_opt)
         return
       end
 
-      mappings[section]["plugin"] = nil
       mappings = { mappings[section] }
     end
 
