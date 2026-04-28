@@ -28,6 +28,7 @@ return function()
       lazy = false,
       opts = function()
         local ensure_installed = {
+          "bash",
           "c",
           "c_sharp",
           "cpp",
@@ -35,12 +36,14 @@ return function()
           "dockerfile",
           "go",
           "html",
+          "html_tags",
           "javascript",
           "json",
           "just",
           "lua",
           "make",
           "markdown",
+          "python",
           "rust",
           "sql",
           "toml",

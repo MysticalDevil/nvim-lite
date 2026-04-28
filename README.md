@@ -83,8 +83,9 @@ init.lua
 
 - parser 管理由 `romus204/tree-sitter-manager.nvim` 接管
 - `specs/core.lua` 只显式设置 `ensure_installed`，不重写插件默认选项
-- 默认安装 c、c_sharp、cpp、css、dockerfile、go、html、javascript、json、just、
-  lua、make、markdown、rust、sql、toml、tsx、typescript、zig parsers
+- 默认安装 bash、c、c_sharp、cpp、css、dockerfile、go、html、html_tags、
+  javascript、json、just、lua、make、markdown、python、rust、sql、toml、tsx、
+  typescript、zig parsers
 - 高亮由 Neovim core `vim.treesitter.start()` 启用
 - `nvim-ts-autotag` 使用自己的 setup 方式
 - **不保留旧 `nvim-treesitter.configs.setup` 兼容层**
