@@ -4,8 +4,6 @@ if not status_ok then
   return
 end
 
-local utils = require("devil.core.utils")
-
 local plugin_sections = {
   require("devil.plugins.specs.core"),
   require("devil.plugins.specs.prog"),
@@ -15,7 +13,7 @@ local plugin_sections = {
 
 local plugins_list = {}
 for _, section in ipairs(plugin_sections) do
-  vim.list_extend(plugins_list, section(utils))
+  vim.list_extend(plugins_list, section())
 end
 
 local lazy_opts = require("devil.plugins.configs.lazy")

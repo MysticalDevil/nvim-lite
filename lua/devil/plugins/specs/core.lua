@@ -1,4 +1,4 @@
-return function(utils)
+return function()
   return {
     { "nvim-lua/plenary.nvim", lazy = false },
     { "folke/lazy.nvim", lazy = false },
@@ -165,7 +165,69 @@ return function(utils)
       priority = 1000,
       lazy = false,
       opts = require("devil.plugins.configs.snacks"),
-      keys = utils.get_lazy_keys("snacks"),
+      keys = {
+        {
+          "<c-\\>",
+          function()
+            Snacks.terminal.toggle()
+          end,
+          desc = "Toggle Terminal",
+          mode = { "n", "t" },
+        },
+        {
+          "<leader>cR",
+          function()
+            Snacks.rename.rename_file()
+          end,
+          desc = "Rename File",
+        },
+        {
+          "<leader>z",
+          function()
+            Snacks.zen()
+          end,
+          desc = "Toggle Zen Mode",
+        },
+        {
+          "<leader>Z",
+          function()
+            Snacks.zen.zoom()
+          end,
+          desc = "Toggle Zoom",
+        },
+        {
+          "<leader>ps",
+          function()
+            Snacks.profiler.startup({})
+          end,
+          desc = "Startup Profiler",
+        },
+        {
+          "<leader>nh",
+          function()
+            Snacks.notifier.show_history()
+          end,
+          desc = "Notification History",
+        },
+        {
+          "<leader>N",
+          function()
+            Snacks.win({
+              file = vim.api.nvim_get_runtime_file("doc/news.txt", false)[1],
+              width = 0.6,
+              height = 0.6,
+              wo = {
+                spell = false,
+                wrap = false,
+                signcolumn = "yes",
+                statuscolumn = " ",
+                conceallevel = 3,
+              },
+            })
+          end,
+          desc = "Neovim News",
+        },
+      },
     },
 
     {

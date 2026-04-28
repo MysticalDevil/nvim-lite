@@ -28,6 +28,7 @@ vim.api.nvim_create_user_command("ConfigHealth", function()
   end
 
   local config_modules = {
+    "devil.core.keymaps",
     "devil.plugins.configs.lazy",
     "devil.plugins.configs.lsp",
     "devil.plugins.configs.fmt",
@@ -66,35 +67,6 @@ vim.api.nvim_create_user_command("ConfigHealth", function()
     end
   else
     report("ERR", "telescope module not available")
-  end
-
-  local ok_mappings, mappings = pcall(require, "devil.core.mappings")
-  if ok_mappings then
-    local seen = {}
-    for section_name, section in pairs(mappings) do
-      for mode, mode_values in pairs(section) do
-        if mode ~= "plugin" then
-          for lhs, _ in pairs(mode_values) do
-            local key = ("%s|%s"):format(mode, lhs)
-            seen[key] = seen[key] or {}
-            table.insert(seen[key], section_name)
-          end
-        end
-      end
-    end
-
-    local conflicts = 0
-    for key, sections in pairs(seen) do
-      if #sections > 1 then
-        conflicts = conflicts + 1
-        report("WARN", ("keymap overlap: %s (%s)"):format(key, table.concat(sections, ", ")))
-      end
-    end
-    if conflicts == 0 then
-      report("OK", "no keymap overlaps found")
-    end
-  else
-    report("ERR", "failed to load devil.core.mappings")
   end
 
   vim.notify(

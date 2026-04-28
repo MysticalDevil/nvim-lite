@@ -7,7 +7,7 @@ require("devil.core")
 
 require("devil.plugins")
 
-utils.load_mappings()
+require("devil.core.keymaps")
 
 require("devil.core.commands")
 require("devil.core.colorscheme")
