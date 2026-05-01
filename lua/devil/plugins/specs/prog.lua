@@ -138,7 +138,6 @@ return function()
       dependencies = {
         "rcarriga/nvim-dap-ui",
         "theHamsta/nvim-dap-virtual-text",
-        "LiadOz/nvim-dap-repl-highlights",
       },
       keys = {
         {

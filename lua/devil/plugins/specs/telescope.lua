@@ -9,7 +9,7 @@ return function()
         "Marskey/telescope-sg",
         "nvim-telescope/telescope-project.nvim",
         "nvim-telescope/telescope-ui-select.nvim",
-        { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+        { "nvim-telescope/telescope-fzf-native.nvim", build = "CC=clang make" },
       },
       cmd = "Telescope",
       keys = {
@@ -43,7 +43,7 @@ return function()
       "danielfalk/smart-open.nvim",
       dependencies = {
         "kkharji/sqlite.lua",
-        { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+        { "nvim-telescope/telescope-fzf-native.nvim", build = "CC=clang make" },
       },
     },
   }

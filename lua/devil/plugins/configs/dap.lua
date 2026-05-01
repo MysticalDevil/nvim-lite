@@ -4,7 +4,7 @@ local dapui = require("dapui")
 require("mason-nvim-dap").setup({
   automatic_installation = false,
   handlers = {},
-  ensure_installed = { "codelldb" },
+  ensure_installed = {},
 })
 
 dap.configurations.cpp = {
@@ -153,5 +153,3 @@ vim.fn.sign_define("DapStopped", {
   numhl = "DapStopped",
 })
 
--- Dependencies
-require("nvim-dap-repl-highlights").setup()

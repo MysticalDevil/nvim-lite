@@ -99,7 +99,7 @@ end
 
 require("mason-lspconfig").setup({
   automatic_enable = false,
-  ensure_installed = ensured_servers,
+  ensure_installed = {},
 })
 
 local servers = {
