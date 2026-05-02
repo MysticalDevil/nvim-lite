@@ -85,19 +85,19 @@ return function()
       },
     },
 
-    --     {
-    --       "MysticalDevil/ts-inject.nvim",
-    --       event = { "BufReadPost", "BufNewFile" },
-    --       opts = {
-    --         enable = {
-    --           rust = true,
-    --           zig = true,
-    --           go = true,
-    --           python = true,
-    --           bash = true,
-    --         },
-    --       },
-    --     },
+    {
+      "MysticalDevil/ts-inject.nvim",
+      event = { "BufReadPost", "BufNewFile" },
+      opts = {
+        enable = {
+          rust = true,
+          zig = true,
+          go = true,
+          python = true,
+          bash = true,
+        },
+      },
+    },
 
     {
       "mason-org/mason.nvim",
