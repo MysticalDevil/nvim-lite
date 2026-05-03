@@ -105,7 +105,6 @@ return function()
         },
       },
     },
-
     {
       "MysticalDevil/ts-inject.nvim",
       event = { "BufReadPost", "BufNewFile" },
@@ -119,7 +118,6 @@ return function()
         },
       },
     },
-
     {
       "mason-org/mason.nvim",
       lazy = false,

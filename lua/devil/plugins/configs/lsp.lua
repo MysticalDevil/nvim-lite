@@ -214,6 +214,7 @@ local servers = {
         inlay_hints_show_builtin = true,
         warn_style = false,
         highlight_global_var_declarations = false,
+        semantic_tokens = "none",
       },
     },
   },
