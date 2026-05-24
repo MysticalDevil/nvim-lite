@@ -75,6 +75,13 @@ return function()
 
         return {
           ensure_installed = #vim.api.nvim_list_uis() > 0 and ensure_installed or {},
+          languages = {
+            cpp = {
+              install_info = {
+                use_repo_queries = true,
+              },
+            },
+          },
         }
       end,
       config = function(_, opts)
