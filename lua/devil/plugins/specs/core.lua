@@ -26,8 +26,8 @@ return function()
     {
       "romus204/tree-sitter-manager.nvim",
       lazy = false,
-      opts = function()
-        local ensure_installed = {
+      opts = {
+        ensure_installed = {
           "bash",
           "c",
           "c_sharp",
@@ -71,19 +71,9 @@ return function()
           "hcl",
           "kdl",
           "robots_txt",
-        }
+        },
+      },
 
-        return {
-          ensure_installed = #vim.api.nvim_list_uis() > 0 and ensure_installed or {},
-          languages = {
-            cpp = {
-              install_info = {
-                use_repo_queries = true,
-              },
-            },
-          },
-        }
-      end,
       config = function(_, opts)
         require("tree-sitter-manager").setup(opts)
 
