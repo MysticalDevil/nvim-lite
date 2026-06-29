@@ -169,7 +169,7 @@ local servers = {
     },
   },
 
-  ts_ls = {
+  vtsls = {
     settings = {
       typescript = {
         inlayHints = {
